@@ -1,0 +1,13 @@
+version: 1
+datastore:
+  filename: stats.sqlite
+scheduler:
+  period_sec: 5
+eventstore:
+  url: http://localhost:8090
+mysql:
+  url: ec2-3-14-226-76.us-east-2.compute.amazonaws.com
+  port: 3306
+  user: 
+  password: 
+  db: events
