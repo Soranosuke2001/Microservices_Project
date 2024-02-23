@@ -1,7 +1,7 @@
 version: 1
 datastore:
-  user: 
-  password: 
+  user: "sora"
+  password: "sora"
   hostname: "ec2-3-14-226-76.us-east-2.compute.amazonaws.com"
   port: 3306
   db: events

@@ -8,6 +8,6 @@ eventstore:
 mysql:
   url: ec2-3-14-226-76.us-east-2.compute.amazonaws.com
   port: 3306
-  user: 
-  password: 
+  user: "sora"
+  password: "sora"
   db: events
