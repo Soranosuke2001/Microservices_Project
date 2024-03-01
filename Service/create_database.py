@@ -9,7 +9,7 @@ connection = sqlite3.connect(filename)
 c = connection.cursor()
 
 create_table1 = '''
-                CREATE TABLE stats
+                CREATE TABLE IF NOT EXISTS stats
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     num_gun_stat_events INTEGER NOT NULL,
