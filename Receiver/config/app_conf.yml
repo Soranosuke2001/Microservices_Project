@@ -1,9 +1,12 @@
 version: 1
 newItemTransaction:
-  url: http://localhost:8090/new/item_transaction
+  # url: http://localhost:8090/new/item_transaction
+  url: http://storage:8090/new/item_transaction
 newGunStat:
-  url: http://localhost:8090/new/gun_stat
+  # url: http://localhost:8090/new/gun_stat
+  url: http://storage:8090/new/gun_stat
 events:
-  hostname: ec2-3-14-226-76.us-east-2.compute.amazonaws.com
+  # hostname: ec2-3-14-226-76.us-east-2.compute.amazonaws.com
+  hostname: kafka
   port: 9092
   topic: events
