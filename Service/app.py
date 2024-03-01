@@ -87,5 +87,5 @@ app.add_api("./config/openapi.yml", strict_validation=True, validate_response=Tr
 
 if __name__ == "__main__":
     init_scheduler()
-    app.run(port=8100)
+    app.run(host="0.0.0.0", port=8100)
 
