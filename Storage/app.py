@@ -1,4 +1,4 @@
-import connexion
+import connexion, time
 from threading import Thread
 
 from sqlalchemy import create_engine
@@ -35,20 +35,31 @@ while not db_connection:
         logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
 
 # connecting to Kafka container
-while not kafka_connection:
-    client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+# while not kafka_connection:
+#     client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
 
-    if client:
-        topic = client.topics[str.encode(kafka_topic)]
+#     if client:
+#         topic = client.topics[str.encode(kafka_topic)]
 
-        consumer = topic.get_simple_consumer(
-            consumer_group=b'event_group', 
-            reset_offset_on_start=False, 
-            auto_offset_reset=OffsetType.LATEST
-        )
+#         consumer = topic.get_simple_consumer(
+#             consumer_group=b'event_group', 
+#             reset_offset_on_start=False, 
+#             auto_offset_reset=OffsetType.LATEST
+#         )
 
-        kafka_connection = True
+#         kafka_connection = True
 
+time.sleep(10)
+
+client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+
+topic = client.topics[str.encode(kafka_topic)]
+
+consumer = topic.get_simple_consumer(
+    consumer_group=b'event_group', 
+    reset_offset_on_start=False, 
+    auto_offset_reset=OffsetType.LATEST
+)
 
 def fetch_gun_stat(start_timestamp, end_timestamp):
     session = DB_SESSION()

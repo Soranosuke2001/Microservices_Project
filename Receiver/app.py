@@ -1,5 +1,5 @@
 from connexion import NoContent
-import connexion, uuid
+import connexion, uuid, time
 from pykafka import KafkaClient
 
 from helpers.read_config import get_urls, read_log_config, get_kafka_config
@@ -9,16 +9,21 @@ gun_stat_url, item_transaction_url = get_urls()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config() 
 
-connection = False
+# connection = False
 
-while not connection:
-    client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-    topic = client.topics[str.encode(kafka_topic)]
-    producer = topic.get_sync_producer()
+# while not connection:
+#     client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+#     topic = client.topics[str.encode(kafka_topic)]
+#     producer = topic.get_sync_producer()
 
-    if client:
-        connection = True
+#     if client:
+#         connection = True
 
+time.sleep(10)
+
+client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+topic = client.topics[str.encode(kafka_topic)]
+producer = topic.get_sync_producer()
 
 def create_gun_stat(body):
     trace_id = gen_trace_id()
