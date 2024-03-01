@@ -43,6 +43,7 @@ services:
 
   audit_log:
     image: soranosuke/audit_log:latest
+    platform: linux/amd64
     ports:
       - '8110:8110'
     expose:
@@ -52,6 +53,7 @@ services:
 
   receiver:
     image: soranosuke/receiver:latest
+    platform: linux/amd64
     ports:
       - '8080:8080'
     expose:
@@ -61,6 +63,7 @@ services:
 
   storage:
     image: soranosuke/storage:latest
+    platform: linux/amd64
     ports:
       - '8090:8090'
     expose:
@@ -71,6 +74,7 @@ services:
 
   service:
     image: soranosuke/service:latest
+    platform: linux/amd64
     ports:
       - '8100:8100'
     expose:
