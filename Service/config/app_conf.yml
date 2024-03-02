@@ -5,10 +5,10 @@ scheduler:
   period_sec: 5
 eventstore:
   # url: http://localhost:8090
-  url: http://storage:8090
+  url: http://localhost:8090
 mysql:
   # url: ec2-3-14-226-76.us-east-2.compute.amazonaws.com
-  url: db
+  url: localhost
   port: 3306
   user: "sora"
   password: "sora"
