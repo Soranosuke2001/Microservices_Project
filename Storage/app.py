@@ -19,7 +19,7 @@ user, password, hostname, port, db = database_config()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config()
 
-time.sleep(10)
+time.sleep(20)
 
 logger.info(f"Connecting to DB. Hostname: {hostname}, Port: {port}")
 
