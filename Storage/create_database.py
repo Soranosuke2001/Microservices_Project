@@ -4,8 +4,14 @@ from helpers.read_config import database_config
 
 user, password, hostname, port, db = database_config()
 
-connection = mysql.connector.connect(host=hostname, user=user, password=password)
+db_connection = False
 
+while not db_connection:
+    connection = mysql.connector.connect(host=hostname, user=user, password=password)
+
+    if connection:
+        db_connection = True
+        
 c = connection.cursor()
 
 c.execute(f"CREATE DATABASE IF NOT EXISTS {db}")
