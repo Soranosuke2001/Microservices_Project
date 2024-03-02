@@ -80,10 +80,10 @@ services:
   service:
     image: soranosuke/service:latest
     platform: linux/amd64
-    # ports:
-    #   - '8100:8100'
-    # expose:
-    #   - '8100'
+    ports:
+      - '8100:8100'
+    expose:
+      - '8100'
     depends_on:
       - kafka
       - db
