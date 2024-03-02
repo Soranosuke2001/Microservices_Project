@@ -24,7 +24,6 @@ kafka_connection = False
 
 logger.info(f"Connecting to DB. Hostname: {hostname}, Port: {port}")
 
-# connecting to MySQL container
 while not db_connection:
     DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
     Base.metadata.bind = DB_ENGINE
