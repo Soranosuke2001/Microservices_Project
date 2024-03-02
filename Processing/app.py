@@ -1,6 +1,6 @@
 import connexion, time
+from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -68,7 +68,7 @@ def populate_stats():
     if new_data['new_event']:
         updated_db(logger, new_data)
     else:
-        no_events(logger, new_data['last_updated'])
+        no_events(logger, datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
 
     end_periodic(logger)
     
