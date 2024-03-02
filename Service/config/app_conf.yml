@@ -5,7 +5,7 @@ scheduler:
   period_sec: 5
 eventstore:
   # url: http://localhost:8090
-  url: http://storage:8090
+  url: storage
 mysql:
   # url: ec2-3-14-226-76.us-east-2.compute.amazonaws.com
   url: db

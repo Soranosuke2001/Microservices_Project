@@ -46,8 +46,6 @@ def populate_stats():
 
     data = check_db(session, Stats)
 
-    print(data)
-
     new_data = update_storage(logger, data)
 
     if new_data == "error":
