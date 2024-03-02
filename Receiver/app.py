@@ -19,7 +19,7 @@ logger = read_log_config()
 #     if client:
 #         connection = True
 
-time.sleep(10)
+time.sleep(20)
 
 client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
 topic = client.topics[str.encode(kafka_topic)]
