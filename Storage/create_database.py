@@ -18,7 +18,7 @@ connection = mysql.connector.connect(host=hostname, user=user, password=password
 c = connection.cursor()
 
 create_table1 = '''
-                CREATE TABLE gun_stats
+                CREATE TABLE IF NOT EXISTS gun_stats
                 (
                     id INT NOT NULL AUTO_INCREMENT,
                     trace_id VARCHAR(250) NOT NULL,
@@ -35,7 +35,7 @@ create_table1 = '''
                 '''
 
 create_table2 = '''
-                CREATE TABLE purchase_history
+                CREATE TABLE IF NOT EXISTS purchase_history
                 (
                     id INT NOT NULL AUTO_INCREMENT,
                     trace_id VARCHAR(250) NOT NULL,

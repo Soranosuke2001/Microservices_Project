@@ -19,40 +19,17 @@ user, password, hostname, port, db = database_config()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config()
 
-db_connection = False
-kafka_connection = False
+time.sleep(10)
 
 logger.info(f"Connecting to DB. Hostname: {hostname}, Port: {port}")
 
-# connecting to MySQL container
-while not db_connection:
-    DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
-    Base.metadata.bind = DB_ENGINE
-    DB_SESSION = sessionmaker(bind=DB_ENGINE)
+DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
+Base.metadata.bind = DB_ENGINE
+DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-    if DB_SESSION:
-        db_connection = True
-        logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
-
-# connecting to Kafka container
-# while not kafka_connection:
-#     client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-
-#     if client:
-#         topic = client.topics[str.encode(kafka_topic)]
-
-#         consumer = topic.get_simple_consumer(
-#             consumer_group=b'event_group', 
-#             reset_offset_on_start=False, 
-#             auto_offset_reset=OffsetType.LATEST
-#         )
-
-#         kafka_connection = True
-
-time.sleep(10)
+logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
 
 client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-
 topic = client.topics[str.encode(kafka_topic)]
 
 consumer = topic.get_simple_consumer(
@@ -60,6 +37,7 @@ consumer = topic.get_simple_consumer(
     reset_offset_on_start=False, 
     auto_offset_reset=OffsetType.LATEST
 )
+
 
 def fetch_gun_stat(start_timestamp, end_timestamp):
     session = DB_SESSION()
