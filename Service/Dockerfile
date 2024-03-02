@@ -7,6 +7,6 @@ COPY . .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 8100
+# EXPOSE 8100
 
 CMD python create_database.py && python app.py
