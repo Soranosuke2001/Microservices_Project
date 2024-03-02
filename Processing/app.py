@@ -54,9 +54,10 @@ def populate_stats():
     if new_data['new_event']:
         updated_db(logger, new_data)
     else:
-        last_updated = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-        no_events(logger, last_updated)
+        last_updated = datetime.now()
         new_data['last_updated'] = last_updated
+
+        no_events(logger, last_updated.strftime("%Y-%m-%d %H:%M:%S.%f"))
 
     pr = Stats(
         new_data['num_gun_stat_events'],
