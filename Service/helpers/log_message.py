@@ -15,7 +15,7 @@ def data_found(logger: Logger, data):
     head_shot_count = data['head_shot_count']
     bullet_shot_count = data['bullet_shot_count']
     num_purchase_history_events = data['num_purchase_history_events']
-    item_revenue = data['item_revenue']
+    item_revenue = data['total_revenue']
     last_updated = data['last_updated']
 
     logger.debug(f"events: {num_gun_stat_events} | {num_purchase_history_events} || item revenue: {item_revenue} || shots: {bullet_shot_count} | {head_shot_count} || updated: {last_updated}")

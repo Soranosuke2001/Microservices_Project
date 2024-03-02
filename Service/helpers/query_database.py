@@ -56,7 +56,8 @@ def row_counter(session: Session, table):
     if result == 0:
         return None
     else:
-        return result
+        result = session.query(table).order_by(desc(table.last_updated)).first()
+        return result.to_dict()
 
 
 def fetch_recent(session: Session, table):
@@ -133,12 +134,9 @@ def update_storage(logger, stats_data):
         "start_timestamp": stats_data['last_updated'].strftime('%Y-%m-%dT%H:%M:%SZ'),
         "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     }
-    print('request start')
 
     gs_res = requests.get(f"{url}/get/gun_stats", params=params)
     ph_res = requests.get(f"{url}/get/purchase_transactions", params=params)
-
-    print('request done')
 
     if gs_res.status_code != 201:
         error_response(logger, "gs")

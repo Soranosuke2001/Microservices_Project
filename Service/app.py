@@ -1,4 +1,4 @@
-import connexion
+import connexion, time
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from sqlalchemy import create_engine
@@ -31,7 +31,7 @@ def get_stats():
     if response == None:
         data_not_found(logger, 400, "No new data")
 
-        return response['message'], response['status_code']
+        return "No Data Found", 400
     else:
         data_found(logger, response)
         end_request(logger)
@@ -84,6 +84,9 @@ app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
-    init_scheduler()
-    app.run(host="0.0.0.0", port=8100)
+    # time.sleep(10)
+    
+    # init_scheduler()
+    # app.run(host="0.0.0.0", port=8100)
+    app.run(port=8100)
 
