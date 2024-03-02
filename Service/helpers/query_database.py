@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import func, desc, create_engine
 from sqlalchemy.orm import Session, sessionmaker
-import requests
+import requests, time
 
 from base import Base
 from tables.gun_stats import GunStats
@@ -12,6 +12,8 @@ from helpers.log_message import success_response, error_response, log_events
 
 filename, seconds, url = get_sqlite_config()
 hostname, user, password, port, db = get_mysql_config()
+
+time.sleep(10)
 
 DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
 Base.metadata.bind = DB_ENGINE
