@@ -13,16 +13,15 @@ def log_debug(logger: Logger, event_name, trace_id):
     logger.debug(f"Stored event {event_name} request with a trace id of {trace_id}")
 
 
-def session_commit(DB_SESSION, entry):
-    session: Session = DB_SESSION()
-
+def session_commit(session: Session, entry):
     session.add(entry)
 
     session.commit()
-    session.close()
 
 
 def kafka_message(DB_SESSION, consumer, logger: Logger):
+    session: Session = DB_SESSION()
+
     for msg in consumer:
         msg_str = msg.value.decode('utf-8')
         msg = json.loads(msg_str)
@@ -43,7 +42,7 @@ def kafka_message(DB_SESSION, consumer, logger: Logger):
                 payload['num_missed_shots']
             )
 
-            session_commit(DB_SESSION, entry)
+            session_commit(session, entry)
 
             log_debug(logger, "create_gun_stat", payload['trace_id'])
         elif msg["type"] == "purchase_history":
@@ -56,8 +55,10 @@ def kafka_message(DB_SESSION, consumer, logger: Logger):
                 payload['transaction_date']
             )
 
-            session_commit(DB_SESSION, entry)
+            session_commit(session, entry)
 
             log_debug(logger, "create_gun_stat", payload['trace_id'])
         
         consumer.commit_offsets()
+
+    session.close()

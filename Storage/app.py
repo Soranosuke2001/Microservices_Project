@@ -19,21 +19,25 @@ user, password, hostname, port, db = database_config()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config()
 
-db_connection = False
-kafka_connection = False
+time.sleep(10)
 
 logger.info(f"Connecting to DB. Hostname: {hostname}, Port: {port}")
+DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
+Base.metadata.bind = DB_ENGINE
+DB_SESSION = sessionmaker(bind=DB_ENGINE)
+logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
+# db_connection = False
+# kafka_connection = False
 
-while not db_connection:
-    DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
-    Base.metadata.bind = DB_ENGINE
-    DB_SESSION = sessionmaker(bind=DB_ENGINE)
+# while not db_connection:
+#     DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
+#     Base.metadata.bind = DB_ENGINE
+#     DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-    if DB_SESSION:
-        db_connection = True
-        logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
+#     if DB_SESSION:
+#         db_connection = True
+#         logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
 
-time.sleep(10)
 
 client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
 topic = client.topics[str.encode(kafka_topic)]
