@@ -51,6 +51,13 @@ def populate_stats():
     if new_data == "error":
         return
 
+    if new_data['new_event']:
+        updated_db(logger, new_data)
+    else:
+        last_updated = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+        no_events(logger, last_updated)
+        new_data['last_updated'] = last_updated
+
     pr = Stats(
         new_data['num_gun_stat_events'],
         new_data['head_shot_count'],
@@ -64,11 +71,6 @@ def populate_stats():
 
     session.commit()
     session.close()
-
-    if new_data['new_event']:
-        updated_db(logger, new_data)
-    else:
-        no_events(logger, datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
 
     end_periodic(logger)
     
