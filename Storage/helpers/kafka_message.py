@@ -1,5 +1,3 @@
-from pykafka import KafkaClient
-from pykafka.common import OffsetType
 import json
 
 from logging import Logger

@@ -2,12 +2,10 @@ version: 1
 datastore:
   user: "sora"
   password: "sora"
-  # hostname: "ec2-3-14-226-76.us-east-2.compute.amazonaws.com"
   hostname: db
   port: 3306
   db: events
 events:
-  # hostname: ec2-3-14-226-76.us-east-2.compute.amazonaws.com
   hostname: kafka
   port: 9092
   topic: events

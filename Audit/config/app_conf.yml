@@ -1,6 +1,5 @@
 version: 1
 events:
-  # hostname: ec2-3-14-226-76.us-east-2.compute.amazonaws.com
   hostname: kafka
   port: 9092
   topic: events
