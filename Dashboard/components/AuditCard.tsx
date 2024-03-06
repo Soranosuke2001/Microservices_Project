@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import Loading from "./Loading";
+import { getCurrentDateTime } from "@/lib/currentDate";
 
 interface AuditCardProps {}
 
@@ -19,6 +20,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
   const queryIndex: number = 11;
   const [gsData, setGSData] = useState(null);
   const [phData, setPHData] = useState(null);
+  const [currentDate, setCurrentDate] = useState<string | null>(null);
 
   const toastMessage = (title: string, message: string, log: string) => {
     toast(title, {
@@ -57,6 +59,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
 
       setGSData(gsResult);
       setPHData(phResult);
+      setCurrentDate(getCurrentDateTime())
     } catch (error) {
       toastMessage(
         "Unable to Fetch Data",
@@ -92,7 +95,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
               <PurchaseEventCard phData={phData} queryIndex={queryIndex} />
             </CardContent>
             <CardFooter className="justify-center text-neutral-400">
-              <p>Last Updated: "DATE TIME"</p>
+              <p>Last Updated: {currentDate}</p>
             </CardFooter>
           </>
         )}
