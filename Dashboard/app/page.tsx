@@ -1,5 +1,5 @@
 import AuditCard from "@/components/AuditCard";
-import GunStatEventCard from "@/components/GunStatEventCard";
+import StatsCard from "@/components/StatsCard";
 import TitleCard from "@/components/TitleCard";
 
 export default function Home() {
@@ -10,6 +10,9 @@ export default function Home() {
       </div>
       <div>
         <AuditCard />
+      </div>
+      <div>
+        <StatsCard />
       </div>
     </main>
   );

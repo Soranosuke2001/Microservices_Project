@@ -46,10 +46,6 @@ const PurchaseEventCard: FC<PurchaseEventCardProps> = ({}) => {
           <Separator className="mb-2" />
           <p className="text-neutral-300">{gunId}</p>
         </CardContent>
-
-        <CardFooter>
-          <p>Last Updated: {last_updated}</p>
-        </CardFooter>
       </Card>
     </>
   );

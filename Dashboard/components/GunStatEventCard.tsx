@@ -13,7 +13,7 @@ const GunStatEventCard: FC<GunStatEventCardProps> = ({}) => {
     <>
       <Card className="bg-neutral-900 text-white p-7">
         <CardHeader>
-          <CardTitle className="text-white">Gun Stat Event</CardTitle>
+          <CardTitle>Gun Stat Event</CardTitle>
           <CardDescription className="text-neutral-600">Fetched index value: {index}</CardDescription>
         </CardHeader>
 
@@ -58,10 +58,6 @@ const GunStatEventCard: FC<GunStatEventCardProps> = ({}) => {
           <Separator className="mb-2" />
           <p className="text-neutral-300">{gunId}</p>
         </CardContent>
-
-        <CardFooter>
-          <p>Last Updated: {last_updated}</p>
-        </CardFooter>
       </Card>
     </>
   );
