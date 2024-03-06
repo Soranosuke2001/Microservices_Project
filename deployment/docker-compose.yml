@@ -87,16 +87,16 @@ services:
       - kafka
       - db
   
-  # dashboard:
-  #   image: soranosuke/dashboard:latest
-  #   platform: linux/amd64
-  #   ports:
-  #     - '3000:3000'
-  #   expose:
-  #     - '3000'
-  #   depends_on:
-  #     - processing
-  #     - audit_log
+  dashboard:
+    image: soranosuke/dashboard:latest
+    platform: linux/amd64
+    ports:
+      - '3000:3000'
+    expose:
+      - '3000'
+    depends_on:
+      - processing
+      - audit_log
 
 volumes:
   my-db:
