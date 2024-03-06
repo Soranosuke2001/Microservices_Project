@@ -1,4 +1,6 @@
 import connexion
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 
 from helpers.read_config import read_log_config, get_kafka_config
 from helpers.kafka_fetch import kafka_fetch
@@ -30,6 +32,7 @@ def log_info(event_type, start_timestamp, end_timestamp, result_len):
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
+app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8110)
