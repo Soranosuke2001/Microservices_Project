@@ -87,7 +87,7 @@ app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
-    time.sleep(10)
+    time.sleep(20)
     
     init_scheduler()
     app.run(host="0.0.0.0", port=8100)

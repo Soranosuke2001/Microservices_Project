@@ -9,7 +9,7 @@ gun_stat_url, item_transaction_url = get_urls()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config() 
 
-time.sleep(10)
+time.sleep(20)
 
 client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
 topic = client.topics[str.encode(kafka_topic)]
