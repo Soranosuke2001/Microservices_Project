@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import Loading from "./Loading";
 
 interface AuditCardProps {}
 
@@ -82,14 +83,19 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
           <CardTitle className="text-4xl">Audit Endpoints Data</CardTitle>
         </CardHeader>
 
-        <CardContent className="flex gap-10">
-          <GunStatEventCard gsData={gsData} queryIndex={queryIndex} />
-          <PurchaseEventCard phData={phData} queryIndex={queryIndex} />
-        </CardContent>
-
-        <CardFooter className="justify-center text-neutral-400">
-          <p>Last Updated: "DATE TIME"</p>
-        </CardFooter>
+        {gsData === null || phData === null ? (
+          <Loading />
+        ) : (
+          <>
+            <CardContent className="flex gap-10">
+              <GunStatEventCard gsData={gsData} queryIndex={queryIndex} />
+              <PurchaseEventCard phData={phData} queryIndex={queryIndex} />
+            </CardContent>
+            <CardFooter className="justify-center text-neutral-400">
+              <p>Last Updated: "DATE TIME"</p>
+            </CardFooter>
+          </>
+        )}
       </Card>
     </>
   );

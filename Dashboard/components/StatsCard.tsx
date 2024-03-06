@@ -10,6 +10,7 @@ import {
 } from "./ui/card";
 import { Separator } from "./ui/separator";
 import { toast } from "sonner";
+import Loading from "./Loading";
 
 interface StatsCardProps {}
 
@@ -63,45 +64,62 @@ const StatsCard: FC<StatsCardProps> = ({}) => {
         <CardHeader className="text-center">
           <CardTitle className="text-3xl">Latest Statistics</CardTitle>
         </CardHeader>
+        {statsData === null ? (
+          <Loading />
+        ) : (
+          <>
+            <div className="flex gap-10">
+              <CardContent className="flex flex-col gap-5">
+                <div>
+                  <h3 className="text-lg font-semibold">
+                    Gun Stat Event Count
+                  </h3>
+                  <Separator className="mb-2" />
+                  <p className="text-neutral-300">
+                    {statsData["num_gun_stat_events"]}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Bullet Shot Count</h3>
+                  <Separator className="mb-2" />
+                  <p className="text-neutral-300">
+                    {statsData["bullet_shot_count"]}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Head Shot Count</h3>
+                  <Separator className="mb-2" />
+                  <p className="text-neutral-300">
+                    {statsData["head_shot_count"]}
+                  </p>
+                </div>
+              </CardContent>
 
-        <div className="flex gap-10">
-          <CardContent className="flex flex-col gap-5">
-            <div>
-              <h3 className="text-lg font-semibold">Gun Stat Event Count</h3>
-              <Separator className="mb-2" />
-              <p className="text-neutral-300">{statsData['num_gun_stat_events']}</p>
+              <CardContent className="flex flex-col gap-5">
+                <div>
+                  <h3 className="text-lg font-semibold">
+                    Purchase History Event Count
+                  </h3>
+                  <Separator className="mb-2" />
+                  <p className="text-neutral-300">
+                    {statsData["num_purchase_history_events"]}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Total Revenue</h3>
+                  <Separator className="mb-2" />
+                  <p className="text-neutral-300">
+                    {statsData["total_revenue"]}
+                  </p>
+                </div>
+              </CardContent>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold">Bullet Shot Count</h3>
-              <Separator className="mb-2" />
-              <p className="text-neutral-300">{statsData['bullet_shot_count']}</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">Head Shot Count</h3>
-              <Separator className="mb-2" />
-              <p className="text-neutral-300">{statsData['head_shot_count']}</p>
-            </div>
-          </CardContent>
 
-          <CardContent className="flex flex-col gap-5">
-            <div>
-              <h3 className="text-lg font-semibold">
-                Purchase History Event Count
-              </h3>
-              <Separator className="mb-2" />
-              <p className="text-neutral-300">{statsData['num_purchase_history_events']}</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">Total Revenue</h3>
-              <Separator className="mb-2" />
-              <p className="text-neutral-300">{statsData['total_revenue']}</p>
-            </div>
-          </CardContent>
-        </div>
-
-        <CardFooter className="justify-center text-neutral-400">
-          <p>Last Updated: {statsData['last_updated']}</p>
-        </CardFooter>
+            <CardFooter className="justify-center text-neutral-400">
+              <p>Last Updated: {statsData["last_updated"]}</p>
+            </CardFooter>
+          </>
+        )}
       </Card>
     </>
   );
