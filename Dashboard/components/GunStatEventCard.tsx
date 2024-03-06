@@ -2,12 +2,13 @@ import { FC } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Separator } from "./ui/separator";
 
-interface GunStatEventCardProps {}
+interface GunStatEventCardProps {
+  gsData: any
+}
 
-const GunStatEventCard: FC<GunStatEventCardProps> = ({}) => {
+const GunStatEventCard: FC<GunStatEventCardProps> = ({ gsData }) => {
   const index = 1
   const gunId = "sdfnsiufh-os8w9-skdjfh-9w83-asd"
-  const last_updated = "02-12-2024 10:30:16.89889"
 
   return (
     <>
