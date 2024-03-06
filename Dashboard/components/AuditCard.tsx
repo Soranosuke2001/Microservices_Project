@@ -37,6 +37,11 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
       const gsResponse = await fetch(
         process.env.NEXT_PUBLIC_GUN_STAT_AUDIT_URL! + `?index=${queryIndex}`
       );
+
+      if (!gsResponse.ok) {
+        throw new Error("No new data found");
+      }
+
       const gsResult = await gsResponse.json();
 
       toastMessage(
@@ -49,6 +54,11 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
         process.env.NEXT_PUBLIC_PURCHASE_HISTORY_AUDIT_URL! +
           `?index=${queryIndex}`
       );
+
+      if (!phResponse.ok) {
+        throw new Error("No new data found");
+      }
+
       const phResult = await phResponse.json();
 
       toastMessage(
@@ -59,7 +69,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
 
       setGSData(gsResult);
       setPHData(phResult);
-      setCurrentDate(getCurrentDateTime())
+      setCurrentDate(getCurrentDateTime());
     } catch (error) {
       toastMessage(
         "Unable to Fetch Data",
@@ -72,7 +82,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-      setQueryIndex(prev => prev + 1)
+      setQueryIndex((prev) => prev + 1);
     }, +process.env.NEXT_PUBLIC_FREQUENCY!);
 
     return () => {
