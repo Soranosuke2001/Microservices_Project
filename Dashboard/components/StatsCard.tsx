@@ -40,7 +40,8 @@ const StatsCard: FC<StatsCardProps> = ({}) => {
 
       statsResult["last_updated"] = statsResult["last_updated"]
         .split("T")
-        .join(" ");
+        .join(" ")
+        .slice(0, -8);
       
       setStatsData(statsResult);
     } catch (error) {
