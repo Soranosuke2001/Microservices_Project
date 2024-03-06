@@ -19,20 +19,28 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
   const [gsData, setGSData] = useState(null);
   const [phData, setPHData] = useState(null);
 
-  const fetchAudit = async () => {
+  const toastMessage = (title: string, message: string, log: string) => {
+    toast(title, {
+      description: message,
+      action: {
+        label: "Dismiss",
+        onClick: () => console.log(log),
+      },
+    });
+  };
+
+  const fetchData = async () => {
     try {
       const gsResponse = await fetch(
         process.env.NEXT_PUBLIC_GUN_STAT_AUDIT_URL! + `?index=${queryIndex}`
       );
       const gsResult = await gsResponse.json();
 
-      toast("Successfully Fetched Data", {
-        description: "Fetched data from Gun Stat audit endpoint.",
-        action: {
-          label: "Dismiss",
-          onClick: () => console.log("Toast Dismissed"),
-        },
-      });
+      toastMessage(
+        "Successfully Fetched Data",
+        "Fetched data from Gun Stat audit endpoint.",
+        "Toast Dismissed"
+      );
 
       const phResponse = await fetch(
         process.env.NEXT_PUBLIC_PURCHASE_HISTORY_AUDIT_URL! +
@@ -40,30 +48,26 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
       );
       const phResult = await phResponse.json();
 
-      toast("Successfully Fetched Data", {
-        description: "Fetched data from Purchase History audit endpoint.",
-        action: {
-          label: "Dismiss",
-          onClick: () => console.log("Toast Dismissed"),
-        },
-      });
+      toastMessage(
+        "Successfully Fetched Data",
+        "Fetched data from Purchase History audit endpoint.",
+        "Toast Dismissed"
+      );
 
       setGSData(gsResult);
       setPHData(phResult);
     } catch (error) {
-      toast("Unable to Fetch Data", {
-        description: "There was an error fetching new data.",
-        action: {
-          label: "Dismiss",
-          onClick: () => console.log(error),
-        },
-      });
+      toastMessage(
+        "Unable to Fetch Data",
+        "There was an error fetching new data.",
+        String(error)
+      );
     }
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchAudit();
+      fetchData();
     }, +process.env.NEXT_PUBLIC_FREQUENCY!);
 
     return () => {
