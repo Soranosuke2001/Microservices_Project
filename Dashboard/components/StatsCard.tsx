@@ -38,6 +38,10 @@ const StatsCard: FC<StatsCardProps> = ({}) => {
         "Toast Dismissed"
       );
 
+      statsResult["last_updated"] = statsResult["last_updated"]
+        .split("T")
+        .join(" ");
+      
       setStatsData(statsResult);
     } catch (error) {
       toastMessage(

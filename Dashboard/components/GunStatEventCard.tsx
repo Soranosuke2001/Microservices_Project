@@ -16,8 +16,6 @@ const GunStatEventCard: FC<GunStatEventCardProps> = ({ gsData, queryIndex }) => 
   const numHeadShots = gsData['num_head_shots']
   const numBodyShots = gsData['num_body_shots']
 
-  // const gunId = "sdfnsiufh-os8w9-skdjfh-9w83-asd"
-
   return (
     <>
       <Card className="bg-neutral-900 text-white p-7">

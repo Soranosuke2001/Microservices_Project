@@ -17,9 +17,9 @@ import { getCurrentDateTime } from "@/lib/currentDate";
 interface AuditCardProps {}
 
 const AuditCard: FC<AuditCardProps> = ({}) => {
-  const queryIndex: number = 11;
   const [gsData, setGSData] = useState(null);
   const [phData, setPHData] = useState(null);
+  const [queryIndex, setQueryIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState<string | null>(null);
 
   const toastMessage = (title: string, message: string, log: string) => {
@@ -72,6 +72,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
+      setQueryIndex(prev => prev + 1)
     }, +process.env.NEXT_PUBLIC_FREQUENCY!);
 
     return () => {

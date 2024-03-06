@@ -11,7 +11,7 @@ const PurchaseEventCard: FC<PurchaseEventCardProps> = ({ phData, queryIndex }) =
   const transactionId = phData['transaction_id']
   const itemId = phData['item_id']
   const userId = phData['user_id']
-  const transactionDate = phData['transaction_date']
+  const transactionDate = phData['transaction_date'].split('T').join(' ')
   const itemPrice = phData['item_price']
 
   return (
