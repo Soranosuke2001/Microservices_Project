@@ -77,12 +77,13 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
           "There was an error fetching new data.",
           String(error)
         );
+      } finally {
+        setQueryIndex((prev) => prev + 1);
       }
     };
 
     const interval = setInterval(() => {
       fetchData();
-      setQueryIndex((prev) => prev + 1);
     }, +process.env.NEXT_PUBLIC_FREQUENCY!);
 
     return () => {
