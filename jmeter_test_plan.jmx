@@ -21,7 +21,7 @@
       </ThreadGroup>
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP POST Request - New Item Transaction">
-          <stringProp name="HTTPSampler.domain">35.247.38.130</stringProp>
+          <stringProp name="HTTPSampler.domain">35.230.127.229</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.path">/new/item_transaction</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -89,7 +89,7 @@
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP POST Request - New Gun Stat">
-          <stringProp name="HTTPSampler.domain">35.247.38.130</stringProp>
+          <stringProp name="HTTPSampler.domain">35.230.127.229</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.path">/new/gun_stat</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>

@@ -1,6 +1,7 @@
 /my_env
 
 *.log
+*.jmx
 
-/__pycache__
+**/__pycache__/
 .DS_Store
