@@ -32,54 +32,54 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
     });
   };
 
-  const fetchData = async () => {
-    try {
-      const gsResponse = await fetch(
-        process.env.NEXT_PUBLIC_GUN_STAT_AUDIT_URL! + `?index=${queryIndex}`
-      );
-
-      if (!gsResponse.ok) {
-        throw new Error("No new data found");
-      }
-
-      const gsResult = await gsResponse.json();
-
-      toastMessage(
-        "Successfully Fetched Data",
-        "Fetched data from Gun Stat audit endpoint.",
-        "Toast Dismissed"
-      );
-
-      const phResponse = await fetch(
-        process.env.NEXT_PUBLIC_PURCHASE_HISTORY_AUDIT_URL! +
-          `?index=${queryIndex}`
-      );
-
-      if (!phResponse.ok) {
-        throw new Error("No new data found");
-      }
-
-      const phResult = await phResponse.json();
-
-      toastMessage(
-        "Successfully Fetched Data",
-        "Fetched data from Purchase History audit endpoint.",
-        "Toast Dismissed"
-      );
-
-      setGSData(gsResult);
-      setPHData(phResult);
-      setCurrentDate(getCurrentDateTime());
-    } catch (error) {
-      toastMessage(
-        "Unable to Fetch Data",
-        "There was an error fetching new data.",
-        String(error)
-      );
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const gsResponse = await fetch(
+          process.env.NEXT_PUBLIC_GUN_STAT_AUDIT_URL! + `?index=${queryIndex}`
+        );
+
+        if (!gsResponse.ok) {
+          throw new Error("No new data found");
+        }
+
+        const gsResult = await gsResponse.json();
+
+        toastMessage(
+          "Successfully Fetched Data",
+          "Fetched data from Gun Stat audit endpoint.",
+          "Toast Dismissed"
+        );
+
+        const phResponse = await fetch(
+          process.env.NEXT_PUBLIC_PURCHASE_HISTORY_AUDIT_URL! +
+            `?index=${queryIndex}`
+        );
+
+        if (!phResponse.ok) {
+          throw new Error("No new data found");
+        }
+
+        const phResult = await phResponse.json();
+
+        toastMessage(
+          "Successfully Fetched Data",
+          "Fetched data from Purchase History audit endpoint.",
+          "Toast Dismissed"
+        );
+
+        setGSData(gsResult);
+        setPHData(phResult);
+        setCurrentDate(getCurrentDateTime());
+      } catch (error) {
+        toastMessage(
+          "Unable to Fetch Data",
+          "There was an error fetching new data.",
+          String(error)
+        );
+      }
+    };
+
     const interval = setInterval(() => {
       fetchData();
       setQueryIndex((prev) => prev + 1);
