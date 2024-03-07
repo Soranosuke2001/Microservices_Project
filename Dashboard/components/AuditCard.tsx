@@ -20,7 +20,6 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
   const [gsData, setGSData] = useState(null);
   const [phData, setPHData] = useState(null);
   const queryIndex = useRef<number>(0);
-  // const [queryIndex, setQueryIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState<string | null>(null);
   
   const toastMessage = (title: string, message: string, log: string) => {
@@ -37,7 +36,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
     const fetchData = async () => {
       try {
         const gsResponse = await fetch(
-          process.env.NEXT_PUBLIC_GUN_STAT_AUDIT_URL! + `?index=${queryIndex}`
+          process.env.NEXT_PUBLIC_GUN_STAT_AUDIT_URL! + `?index=${queryIndex.current}`
         );
 
         if (!gsResponse.ok) {
@@ -54,7 +53,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
 
         const phResponse = await fetch(
           process.env.NEXT_PUBLIC_PURCHASE_HISTORY_AUDIT_URL! +
-            `?index=${queryIndex}`
+            `?index=${queryIndex.current}`
         );
 
         if (!phResponse.ok) {
@@ -80,7 +79,6 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
         );
       } finally {
         queryIndex.current += 1
-        // setQueryIndex((prev) => prev + 1);
       }
     };
 
