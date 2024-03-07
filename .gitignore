@@ -1,4 +1,6 @@
 /my_env
 
+*.log
+
 */__pycache__
 */.DS_Store

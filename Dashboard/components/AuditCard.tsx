@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import GunStatEventCard from "./GunStatEventCard";
 import PurchaseEventCard from "./PurchaseEventCard";
@@ -19,9 +19,10 @@ interface AuditCardProps {}
 const AuditCard: FC<AuditCardProps> = ({}) => {
   const [gsData, setGSData] = useState(null);
   const [phData, setPHData] = useState(null);
-  const [queryIndex, setQueryIndex] = useState<number>(0);
+  const queryIndex = useRef<number>(0);
+  // const [queryIndex, setQueryIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState<string | null>(null);
-
+  
   const toastMessage = (title: string, message: string, log: string) => {
     toast(title, {
       description: message,
@@ -31,7 +32,7 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
       },
     });
   };
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -78,7 +79,8 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
           String(error)
         );
       } finally {
-        setQueryIndex((prev) => prev + 1);
+        queryIndex.current += 1
+        // setQueryIndex((prev) => prev + 1);
       }
     };
 
@@ -103,8 +105,8 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
         ) : (
           <>
             <CardContent className="flex gap-10">
-              <GunStatEventCard gsData={gsData} queryIndex={queryIndex} />
-              <PurchaseEventCard phData={phData} queryIndex={queryIndex} />
+              <GunStatEventCard gsData={gsData} queryIndex={queryIndex.current} />
+              <PurchaseEventCard phData={phData} queryIndex={queryIndex.current} />
             </CardContent>
             <CardFooter className="justify-center text-neutral-400">
               <p>Last Updated: {currentDate}</p>
