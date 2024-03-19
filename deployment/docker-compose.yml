@@ -29,7 +29,7 @@ services:
       KAFKA_BROKER_ID: 1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/soranosuke/kafka/data:/kafka/kafka-logs
+      - /home/soranosuke/kafka:/kafka/kafka-logs
     depends_on:
       - "zookeeper"
 
