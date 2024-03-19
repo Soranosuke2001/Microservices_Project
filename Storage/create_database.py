@@ -6,8 +6,18 @@ if __name__ == "__main__":
     user, password, hostname, port, db = database_config()
 
     time.sleep(10)
+
+    connected = False
+
+    while not connected:
+        try:
+            connection = mysql.connector.connect(host=hostname, user=user, password=password)
+            connected = True
+        except Exception as e:
+            print("Database not yet available, retrying in 10 seconds")
+            time.sleep(10)
     
-    connection = mysql.connector.connect(host=hostname, user=user, password=password)
+    # connection = mysql.connector.connect(host=hostname, user=user, password=password)
     c = connection.cursor()
 
     c.execute(f"CREATE DATABASE IF NOT EXISTS {db}")
