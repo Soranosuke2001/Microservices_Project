@@ -9,11 +9,20 @@ gun_stat_url, item_transaction_url = get_urls()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config() 
 
-time.sleep(20)
+time.sleep(10)
 
-client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-topic = client.topics[str.encode(kafka_topic)]
-producer = topic.get_sync_producer()
+connected = False
+
+while not connected:
+    try:
+        client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+        topic = client.topics[str.encode(kafka_topic)]
+        producer = topic.get_sync_producer()
+        connected = True
+    except:
+        logger.error("Failed to connect to Kafka, retrying in 5 seconds")
+        time.sleep(5)
+
 
 def create_gun_stat(body):
     trace_id = gen_trace_id()
