@@ -8,7 +8,7 @@ services:
       - "2181"
     hostname: zookeeper
     volumes:
-      - /home/soranosuke/zookeeper/data:/opt/zookeeper-3.4.13/data
+      - zookeeper-data:/opt/zookeeper-3.4.13/data
 
   kafka:
     image: wurstmeister/kafka
@@ -29,7 +29,7 @@ services:
       KAFKA_BROKER_ID: 1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/soranosuke/kafka:/kafka/kafka-logs
+      - kafka-data:/kafka/kafka-logs
     depends_on:
       - "zookeeper"
 
@@ -105,3 +105,5 @@ services:
 
 volumes:
   my-db:
+  zookeeper-data:
+  kafka-data:
