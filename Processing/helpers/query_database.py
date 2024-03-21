@@ -15,10 +15,16 @@ hostname, user, password, port, db = get_mysql_config()
 
 time.sleep(10)
 
-DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
-Base.metadata.bind = DB_ENGINE
-DB_SESSION = sessionmaker(bind=DB_ENGINE)
+connected = False
 
+while not connected:
+    try:
+        DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
+        Base.metadata.bind = DB_ENGINE
+        DB_SESSION = sessionmaker(bind=DB_ENGINE)
+    except:
+        print("Failed to connect to MySQL, retrying in 5 seconds")
+        time.sleep(5)
 
 def check_prev_data():
     session = DB_SESSION()

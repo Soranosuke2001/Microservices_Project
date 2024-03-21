@@ -14,7 +14,7 @@ def kafka_fetch(kafka_hostname, kafka_port, kafka_topic, event_type, index, logg
     topic = client.topics[str.encode(kafka_topic)]
 
     consumer = topic.get_simple_consumer(
-        reset_offset_on_start=False, 
+        reset_offset_on_start=True, 
         consumer_timeout_ms=3000
     )
 

@@ -19,24 +19,37 @@ user, password, hostname, port, db = database_config()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config()
 
-time.sleep(20)
+time.sleep(10)
 
-logger.info(f"Connecting to DB. Hostname: {hostname}, Port: {port}")
+kafka_connected = False
+mysql_connected = False
 
-DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
-Base.metadata.bind = DB_ENGINE
-DB_SESSION = sessionmaker(bind=DB_ENGINE)
+while not kafka_connected:
+    try:
+        client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+        topic = client.topics[str.encode(kafka_topic)]
 
-logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
+        consumer = topic.get_simple_consumer(
+            consumer_group=b'event_group', 
+            reset_offset_on_start=False, 
+            auto_offset_reset=OffsetType.LATEST
+        )
+    except:
+        logger.error("Failed to connect to Kafka, retrying in 5 seconds")
+        time.sleep(5)
 
-client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-topic = client.topics[str.encode(kafka_topic)]
+while not mysql_connected:
+    try:
+        logger.info(f"Connecting to DB. Hostname: {hostname}, Port: {port}")
 
-consumer = topic.get_simple_consumer(
-    consumer_group=b'event_group', 
-    reset_offset_on_start=False, 
-    auto_offset_reset=OffsetType.LATEST
-)
+        DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
+        Base.metadata.bind = DB_ENGINE
+        DB_SESSION = sessionmaker(bind=DB_ENGINE)
+
+        logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
+    except:
+        logger.error("Failed to connect to MySQL, retrying in 5 seconds")
+        time.sleep(5)
 
 
 def fetch_gun_stat(start_timestamp, end_timestamp):
