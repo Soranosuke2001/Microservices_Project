@@ -2,25 +2,37 @@ from connexion import NoContent
 import connexion, uuid, time
 from pykafka import KafkaClient
 
-from helpers.read_config import get_urls, read_log_config, get_kafka_config
-from helpers.kafka_message import kafka_message
+from helpers.read_config import get_urls, read_log_config, get_kafka_config, get_kafka_event_logs_config
+from helpers.kafka_message import kafka_event_message, kafka_log_message
 
 gun_stat_url, item_transaction_url = get_urls()
-kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
+kafka_events_hostname, kafka_events_port, kafka_events_topic = get_kafka_config()
+kafka_logs_hostname, kafka_logs_port, kafka_logs_topic = get_kafka_event_logs_config()
 logger = read_log_config() 
 
 time.sleep(10)
 
-connected = False
+events_connected = False
+logs_connected = False
 
-while not connected:
+while not events_connected:
     try:
-        client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-        topic = client.topics[str.encode(kafka_topic)]
-        producer = topic.get_sync_producer()
-        connected = True
+        events_client = KafkaClient(hosts=f'{kafka_events_hostname}:{kafka_events_port}')
+        events_topic = events_client.topics[str.encode(kafka_events_topic)]
+        events_producer = events_topic.get_sync_producer()
+        events_connected = True
     except:
-        logger.error("Failed to connect to Kafka, retrying in 5 seconds")
+        logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
+        time.sleep(5)
+
+while not logs_connected:
+    try:
+        logs_client = KafkaClient(hosts=f'{kafka_logs_hostname}:{kafka_logs_port}')
+        logs_topic = logs_client.topics[str.encode(kafka_logs_topic)]
+        logs_producer = logs_topic.get_sync_producer()
+        logs_connected = True
+    except:
+        logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")
         time.sleep(5)
 
 
@@ -30,7 +42,9 @@ def create_gun_stat(body):
 
     log_message(trace_id, "create_gun_stat", "receive")
 
-    kafka_message(producer, body, "gun_stat")
+    kafka_event_message(events_producer, body, "gun_stat")
+
+    kafka_log_message(logs_producer, f"Received the event, GunStat - {trace_id}", body)
 
     log_message(trace_id, "create_gun_stat", "return", 201)
 
@@ -43,7 +57,9 @@ def create_purchase_transaction(body):
 
     log_message(trace_id, "create_purchase_transaction", "receive")
 
-    kafka_message(producer, body, "purchase_history")
+    kafka_event_message(events_producer, body, "purchase_history")
+
+    kafka_log_message(logs_producer, f"Received the event, PurchaseHistory - {trace_id}", body)
 
     log_message(trace_id, "create_purchase_transaction", "return", 201)
 
