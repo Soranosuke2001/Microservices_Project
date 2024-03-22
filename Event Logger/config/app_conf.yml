@@ -1,0 +1,11 @@
+version: 1
+datastore:
+  filename: event_logs.sqlite
+scheduler:
+  period_sec: 5
+eventstore:
+  url: http://localhost:8090
+events:
+  hostname: kafka
+  port: 9092
+  topic: event_log
