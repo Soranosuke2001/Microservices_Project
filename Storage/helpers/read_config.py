@@ -20,10 +20,24 @@ def database_config():
     return user, password, hostname, port, db
 
 
-def get_kafka_config():
+def get_kafka_event_config():
     app_config = read_app_config()
 
-    return app_config['events']['hostname'], app_config['events']['port'], app_config['events']['topic']
+    hostname = app_config['events']['hostname']
+    port = app_config['events']['port']
+    topic = app_config['events']['topic']
+
+    return hostname, port, topic
+
+
+def get_kafka_log_config():
+    app_config = read_app_config()
+
+    hostname = app_config['event_logs']['hostname']
+    port = app_config['event_logs']['port']
+    topic = app_config['event_logs']['topic']
+
+    return hostname, port, topic
     
 
 def read_log_config():
