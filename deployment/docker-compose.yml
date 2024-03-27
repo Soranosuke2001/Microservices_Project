@@ -60,6 +60,7 @@ services:
       - '8110'
     volumes:
       - /home/soranosuke/config/audit_log:/config
+      - /home/soranosuke/logs:/logs
     depends_on:
       - kafka
 
@@ -74,6 +75,7 @@ services:
       - '8080'
     volumes:
       - /home/soranosuke/config/receiver:/config
+      - /home/soranosuke/logs:/logs
     depends_on:
       - kafka
 
@@ -86,6 +88,9 @@ services:
       - '8090:8090'
     expose:
       - '8090'
+    volumes:
+      - /home/soranosuke/config/storage:/config
+      - /home/soranosuke/logs:/logs
     depends_on:
       - kafka
       - db
@@ -102,6 +107,7 @@ services:
       - '8100'
     volumes:
       - /home/soranosuke/config/processing:/config
+      - /home/soranosuke/logs:/logs
     depends_on:
       - kafka
       - db
@@ -113,8 +119,6 @@ services:
       - '3000:3000'
     expose:
       - '3000'
-    volumes:
-      - /home/soranosuke/config/storage:/config
     depends_on:
       - processing
       - audit_log
