@@ -1,4 +1,4 @@
-import yaml, logging.config, logging
+import yaml, logging.config, logging, os
 
 
 def conf_filename(service):
