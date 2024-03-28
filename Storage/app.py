@@ -24,7 +24,15 @@ time.sleep(10)
 kafka_connected = False
 mysql_connected = False
 
+MAX_ATTEMPT = 15
+kafka_count = 0
+mysql_count = 0
+
 while not kafka_connected:
+    if MAX_ATTEMPT == kafka_count:
+        print("Unable to connect to Kafka. The program will terminate")
+        break
+
     try:
         client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
         topic = client.topics[str.encode(kafka_topic)]
@@ -34,11 +42,20 @@ while not kafka_connected:
             reset_offset_on_start=False, 
             auto_offset_reset=OffsetType.LATEST
         )
+
+        kafka_connected = True
+        print("Connected to Kafka successfully")
     except:
         logger.error("Failed to connect to Kafka, retrying in 5 seconds")
         time.sleep(5)
+    finally:
+        kafka_count += 1
 
 while not mysql_connected:
+    if MAX_ATTEMPT == mysql_count:
+        print("Unable to connect to MySQL. The program will terminate")
+        break
+
     try:
         logger.info(f"Connecting to DB. Hostname: {hostname}, Port: {port}")
 
@@ -47,9 +64,14 @@ while not mysql_connected:
         DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
         logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
+
+        mysql_connected = True
+        print("Connected to MySQL successfully")
     except:
         logger.error("Failed to connect to MySQL, retrying in 5 seconds")
         time.sleep(5)
+    finally:
+        kafka_count += 1
 
 
 def fetch_gun_stat(start_timestamp, end_timestamp):
@@ -91,5 +113,6 @@ if __name__ == "__main__":
     t1.setDaemon(True)
     t1.start()
 
+    print("application running")
     app.run(host="0.0.0.0", port=8090)
 

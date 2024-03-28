@@ -52,7 +52,6 @@ def read_log_config():
         logging.config.dictConfig(log_config)
 
     logger = logging.getLogger('basicLogger')
-    print('running')
 
     return logger
 
