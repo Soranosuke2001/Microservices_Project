@@ -108,6 +108,7 @@ services:
     volumes:
       - /home/soranosuke/config/processing:/config
       - /home/soranosuke/logs:/logs
+      - processing-db:/data
     depends_on:
       - kafka
       - db
@@ -124,6 +125,7 @@ services:
       - audit_log
 
 volumes:
+  processing-db:
   my-db:
   zookeeper-data:
   kafka-data:
