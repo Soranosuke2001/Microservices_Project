@@ -34,7 +34,7 @@ def get_mysql_config():
 
 
 def get_sqlite_config():
-    app_config = conf_filename()
+    app_config = read_app_config()
 
     filename = app_config['datastore']['filename']
     seconds = app_config['scheduler']['period_sec']
@@ -46,11 +46,13 @@ def get_sqlite_config():
 def read_log_config():
     log_conf_file = conf_filename('log')
 
+
     with open(log_conf_file, 'r') as file:
         log_config = yaml.safe_load(file.read())
         logging.config.dictConfig(log_config)
 
     logger = logging.getLogger('basicLogger')
+    print('running')
 
     return logger
 

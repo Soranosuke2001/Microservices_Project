@@ -16,6 +16,7 @@ from helpers.read_config import get_sqlite_config, read_log_config
 filename, seconds, url = get_sqlite_config()    
 logger = read_log_config()
 
+
 DB_ENGINE = create_engine("sqlite:///%s" %filename)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
