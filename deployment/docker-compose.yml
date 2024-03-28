@@ -50,7 +50,7 @@ services:
       - my-db:/var/lib/mysql
 
   audit_log:
-    image: soranosuke/audit_log:latest
+    image: audit_log:latest
     platform: linux/amd64
     environment:
       - TARGET_ENV=test
@@ -65,7 +65,7 @@ services:
       - kafka
 
   receiver:
-    image: soranosuke/receiver:latest
+    image: receiver:latest
     platform: linux/amd64
     environment:
       - TARGET_ENV=test
@@ -80,7 +80,7 @@ services:
       - kafka
 
   storage:
-    image: soranosuke/storage:latest
+    image: storage:latest
     platform: linux/amd64
     environment:
       - TARGET_ENV=test
@@ -96,7 +96,7 @@ services:
       - db
 
   processing:
-    image: soranosuke/processing:latest
+    image: processing:latest
     platform: linux/amd64
     environment:
       - TARGET_ENV=test
@@ -114,7 +114,7 @@ services:
       - db
   
   dashboard:
-    image: soranosuke/dashboard:latest
+    image: dashboard:latest
     platform: linux/amd64
     ports:
       - '3000:3000'
