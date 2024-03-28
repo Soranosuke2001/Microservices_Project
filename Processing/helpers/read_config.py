@@ -18,6 +18,7 @@ def read_app_config():
     with open(app_conf_file, 'r') as file:
         app_config = yaml.safe_load(file.read())
 
+    print(app_config)
     return app_config
 
 

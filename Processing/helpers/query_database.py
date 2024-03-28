@@ -22,7 +22,9 @@ while not connected:
         DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
         Base.metadata.bind = DB_ENGINE
         DB_SESSION = sessionmaker(bind=DB_ENGINE)
-    except:
+
+        connected = True
+    except Exception as e:
         print("Failed to connect to MySQL, retrying in 5 seconds")
         time.sleep(5)
 
