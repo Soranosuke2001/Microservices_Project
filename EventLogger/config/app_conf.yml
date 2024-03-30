@@ -1,6 +1,6 @@
 version: 1
 datastore:
-  filename: event_logs.sqlite
+  filename: /data/event_logs.sqlite
 scheduler:
   period_sec: 5
 eventstore:

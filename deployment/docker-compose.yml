@@ -88,6 +88,8 @@ services:
       - '8100:8100'
     expose:
       - '8100'
+    volumes:
+      - processing-db:/data
     depends_on:
       - kafka
       - db
@@ -103,7 +105,21 @@ services:
       - processing
       - audit_log
 
+  event_logger:
+    image: soranosuke/event_logger:latest
+    platform: linux/amd64
+    ports:
+      - '8120:8120'
+    expose:
+      - '8120'
+    volumes:
+      - event_logger-db:/data
+    depends_on:
+      - kafka
+
 volumes:
   my-db:
   zookeeper-data:
   kafka-data:
+  processing-db:
+  event_logger-db:
