@@ -3,7 +3,7 @@ import connexion, uuid, time
 from pykafka import KafkaClient
 
 from helpers.read_config import get_urls, read_log_config, get_kafka_config, get_kafka_event_logs_config
-from helpers.kafka_message import kafka_event_message, kafka_log_message
+from helpers.kafka_message import kafka_event_message, kafka_logger
 
 gun_stat_url, item_transaction_url = get_urls()
 kafka_events_hostname, kafka_events_port, kafka_events_topic = get_kafka_config()
@@ -20,6 +20,7 @@ while not events_connected:
         events_client = KafkaClient(hosts=f'{kafka_events_hostname}:{kafka_events_port}')
         events_topic = events_client.topics[str.encode(kafka_events_topic)]
         events_producer = events_topic.get_sync_producer()
+
         events_connected = True
     except:
         logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
@@ -30,6 +31,7 @@ while not logs_connected:
         logs_client = KafkaClient(hosts=f'{kafka_logs_hostname}:{kafka_logs_port}')
         logs_topic = logs_client.topics[str.encode(kafka_logs_topic)]
         logs_producer = logs_topic.get_sync_producer()
+        
         logs_connected = True
     except:
         logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")
@@ -44,8 +46,6 @@ def create_gun_stat(body):
 
     kafka_event_message(events_producer, body, "gun_stat")
 
-    kafka_log_message(logs_producer, f"Received the event, GunStat - {trace_id}", body)
-
     log_message(trace_id, "create_gun_stat", "return", 201)
 
     return NoContent, 201
@@ -58,8 +58,6 @@ def create_purchase_transaction(body):
     log_message(trace_id, "create_purchase_transaction", "receive")
 
     kafka_event_message(events_producer, body, "purchase_history")
-
-    kafka_log_message(logs_producer, f"Received the event, PurchaseHistory - {trace_id}", body)
 
     log_message(trace_id, "create_purchase_transaction", "return", 201)
 
@@ -82,4 +80,6 @@ app.add_api("./config/openapi.yml", strict_validation=True, validate_response=Tr
 
 
 if __name__ == "__main__":
+    kafka_logger(logs_producer)
+    
     app.run(host="0.0.0.0", port=8080)

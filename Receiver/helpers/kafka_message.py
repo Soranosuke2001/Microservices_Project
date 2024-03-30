@@ -13,12 +13,13 @@ def kafka_event_message(producer, body, event_type):
     producer.produce(msg_str.encode('utf-8'))
 
 
-def kafka_log_message(producer, message, body):
+def kafka_logger(producer):
     msg = {
         "datetime": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
-        "code": "0001",
-        "payload": body,
-        "message": message
+        "payload": {
+            "message": "Processing service successfully started",
+            "message_code": "0001"
+        }
     }
 
     msg_str = json.dumps(msg)
