@@ -17,7 +17,7 @@ def kafka_logger(producer):
     msg = {
         "datetime": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
         "payload": {
-            "message": "Processing service successfully started",
+            "message": "Receiver service successfully started",
             "message_code": "0001"
         }
     }

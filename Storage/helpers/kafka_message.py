@@ -1,5 +1,6 @@
 import json
 
+from datetime import datetime
 from logging import Logger
 from sqlalchemy.orm import Session
 
@@ -60,3 +61,16 @@ def kafka_message(DB_SESSION, consumer, logger: Logger):
         consumer.commit_offsets()
 
     session.close()
+
+
+def kafka_logger(producer):
+    msg = {
+        "datetime": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+        "payload": {
+            "message": "Storage service successfully started",
+            "message_code": "0002"
+        }
+    }
+
+    msg_str = json.dumps(msg)
+    producer.produce(msg_str.encode('utf-8'))

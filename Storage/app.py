@@ -12,12 +12,12 @@ from purchase_history import PurchaseHistory
 
 from helpers.read_config import database_config, read_log_config, get_kafka_event_config, get_kafka_log_config
 from helpers.query_database import fetch_timestamp_results
-from helpers.kafka_message import kafka_message
+from helpers.kafka_message import kafka_message, kafka_logger
 
 
 user, password, hostname, port, db = database_config()
 events_hostname, events_port, events_topic = get_kafka_event_config()
-logs_hostname, logs_port, logs_topic = get_kafka_log_config()
+kafka_logs_hostname, kafka_logs_port, kafka_logs_topic = get_kafka_log_config()
 logger = read_log_config()
 
 time.sleep(10)
@@ -35,6 +35,8 @@ while not mysql_connected:
         DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
         logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
+
+        mysql_connected = True
     except:
         logger.error("Failed to connect to MySQL, retrying in 5 seconds")
         time.sleep(5)
@@ -49,20 +51,19 @@ while not event_connected:
             reset_offset_on_start=False, 
             auto_offset_reset=OffsetType.LATEST
         )
+
+        event_connected = True
     except:
         logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
         time.sleep(5)
 
-while not log_connected:
+while not logs_connected:
     try:
-        logs_client = KafkaClient(hosts=f'{logs_hostname}:{logs_port}')
-        logs_topic = logs_client.topics[str.encode(logs_topic)]
-
-        logs_consumer = logs_topic.get_simple_consumer(
-            consumer_group=b'event_group', 
-            reset_offset_on_start=False, 
-            auto_offset_reset=OffsetType.LATEST
-        )
+        logs_client = KafkaClient(hosts=f'{kafka_logs_hostname}:{kafka_logs_port}')
+        logs_topic = logs_client.topics[str.encode(kafka_logs_topic)]
+        logs_producer = logs_topic.get_sync_producer()
+        
+        logs_connected = True
     except:
         logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")
         time.sleep(5)
@@ -106,6 +107,8 @@ if __name__ == "__main__":
     t1 = Thread(target=process_messages)
     t1.setDaemon(True)
     t1.start()
+
+    kafka_logger(logs_producer)
 
     app.run(host="0.0.0.0", port=8090)
 
