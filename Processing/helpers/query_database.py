@@ -7,17 +7,28 @@ from base import Base
 from tables.gun_stats import GunStats
 from tables.purchase_history import PurchaseHistory
 
-from helpers.read_config import get_sqlite_config, get_mysql_config
+from helpers.read_config import get_sqlite_config, get_mysql_config, get_kafka_threshold
 from helpers.log_message import success_response, error_response, log_events
+from helpers.kafka_message import kafka_max_count
 
 filename, seconds, url = get_sqlite_config()
 hostname, user, password, port, db = get_mysql_config()
+kafka_threshold = get_kafka_threshold()
 
 time.sleep(10)
 
-DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
-Base.metadata.bind = DB_ENGINE
-DB_SESSION = sessionmaker(bind=DB_ENGINE)
+connected = False
+
+while not connected:
+    try:
+        DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
+        Base.metadata.bind = DB_ENGINE
+        DB_SESSION = sessionmaker(bind=DB_ENGINE)
+
+        connected = True
+    except Exception as e:
+        print("Failed to connect to MySQL, retrying in 5 seconds")
+        time.sleep(5)
 
 
 def check_prev_data():
@@ -90,8 +101,13 @@ def count_sum(count, events, property):
     return count
 
 
-def update_stats(stats_data, gs_events, ph_events, new_event):
+def update_stats(producer, stats_data, gs_events, ph_events, new_event):
     last_updated = stats_data['last_updated']
+
+    total_messages = len(gs_events) + len(ph_events)
+
+    if total_messages > kafka_threshold:
+        kafka_max_count(producer, kafka_threshold)
 
     if len(ph_events) > 0:
         num_ph = stats_data['num_purchase_history_events'] + len(ph_events)
@@ -127,7 +143,7 @@ def update_stats(stats_data, gs_events, ph_events, new_event):
     }
 
 
-def update_storage(logger, stats_data):
+def update_storage(logger, stats_data, producer):
     error = False
 
     params = {
@@ -156,4 +172,4 @@ def update_storage(logger, stats_data):
 
     log_events(logger, gs_events, ph_events)
 
-    return update_stats(stats_data, gs_events, ph_events, new_event)
+    return update_stats(producer, stats_data, gs_events, ph_events, new_event)

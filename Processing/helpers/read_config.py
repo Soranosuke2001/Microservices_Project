@@ -30,6 +30,24 @@ def get_sqlite_config():
     return filename, seconds, url
 
 
+def get_kafka_config():
+    app_config = read_app_config()
+
+    hostname = app_config['events']['hostname']
+    port = app_config['events']['port']
+    topic = app_config['events']['topic']
+
+    return hostname, port, topic
+
+
+def get_kafka_threshold():
+    app_config = read_app_config()
+
+    count = app_config['kafka']['max']['count']
+
+    return count
+
+
 def read_log_config():
     with open('./config/log_conf.yml', 'r') as file:
         log_config = yaml.safe_load(file.read())

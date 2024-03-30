@@ -65,7 +65,7 @@ def update_db(prev_data, consumer, logger: Logger, DB_SESSION):
         logger.info(f'Message: {msg}')
 
         payload = msg['payload']
-        code_received = msg['message_code']
+        code_received = payload['message_code']
 
         prev_data[code_received] += 1
 

@@ -1,6 +1,10 @@
-import connexion, time
+import connexion
+import time
+
 from datetime import datetime
 from connexion.middleware import MiddlewarePosition
+from pykafka import KafkaClient
+from pykafka.common import OffsetType
 from starlette.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy import create_engine
@@ -10,15 +14,30 @@ from base import Base
 from stats import Stats
 
 from helpers.log_message import start_request, end_request, data_found, data_not_found, start_periodic, end_periodic, updated_db, no_events
+from helpers.kafka_message import kafka_logger
 from helpers.query_database import row_counter, check_db, update_storage
-from helpers.read_config import get_sqlite_config, read_log_config
+from helpers.read_config import get_sqlite_config, read_log_config, get_kafka_config
 
 filename, seconds, url = get_sqlite_config()    
+kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config()
 
 DB_ENGINE = create_engine("sqlite:///%s" %filename)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
+
+kafka_connected = False
+
+while not kafka_connected:
+    try:
+        events_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+        events_topic = events_client.topics[str.encode(kafka_topic)]
+        events_producer = events_topic.get_sync_producer()
+
+        kafka_connected = True
+    except:
+        logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
+        time.sleep(5)
 
 
 def get_stats():
@@ -48,7 +67,7 @@ def populate_stats():
 
     data = check_db(session, Stats)
 
-    new_data = update_storage(logger, data)
+    new_data = update_storage(logger, data, events_producer)
 
     if new_data == "error":
         return
@@ -93,6 +112,7 @@ if __name__ == "__main__":
     time.sleep(20)
     
     init_scheduler()
+    kafka_logger()
     app.run(host="0.0.0.0", port=8100)
 
 

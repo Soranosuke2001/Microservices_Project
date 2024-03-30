@@ -11,3 +11,10 @@ mysql:
   user: "sora"
   password: "sora"
   db: events
+events:
+  hostname: kafka
+  port: 9092
+  topic: event_log
+kafka:
+  max:
+    count: 25
