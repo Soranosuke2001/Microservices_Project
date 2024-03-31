@@ -18,6 +18,8 @@ filename, seconds, url = get_sqlite_config()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 logger = read_log_config()
 
+time.sleep(10)
+
 kafka_connected = False
 sqlite_connected = False
 

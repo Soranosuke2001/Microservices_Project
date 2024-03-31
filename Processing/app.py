@@ -26,6 +26,8 @@ DB_ENGINE = create_engine("sqlite:///%s" %filename)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
+time.sleep(10)
+
 logs_connected = False
 
 while not logs_connected:
