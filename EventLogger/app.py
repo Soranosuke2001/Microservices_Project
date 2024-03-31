@@ -4,7 +4,6 @@ import time
 from threading import Thread
 from connexion.middleware import MiddlewarePosition
 from starlette.middleware.cors import CORSMiddleware
-from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from pykafka import KafkaClient
@@ -86,19 +85,11 @@ def update_logs():
     logger.info("Ended periodic event logging")
 
 
-# def init_scheduler():
-#     sched = BackgroundScheduler(daemon=True)
-#     sched.add_job(update_logs, 'interval', seconds=seconds)
-
-#     sched.start()
-    
-
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
-    # init_scheduler()
     t1 = Thread(target=update_logs)
     t1.setDaemon(True)
     t1.start()

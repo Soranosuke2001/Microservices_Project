@@ -10,4 +10,4 @@ events:
 event_logs:
   hostname: kafka
   port: 9092
-  topic: event_logs
+  topic: event_log

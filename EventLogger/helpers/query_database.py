@@ -16,6 +16,11 @@ def check_prev_data(DB_SESSION):
 
     results = session.query(EventLogs).order_by(desc(EventLogs.date_created)).first()
 
+    if results:
+        print(f"HERE IS THE FETCHED RESULTS: {results.to_dict()}")
+    else:
+        print("results is NONE")
+
     session.close()
     
     if results:
