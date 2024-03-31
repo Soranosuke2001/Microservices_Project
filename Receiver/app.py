@@ -21,7 +21,7 @@ while not events_connected:
         events_topic = events_client.topics[str.encode(kafka_events_topic)]
         events_producer = events_topic.get_sync_producer()
 
-        logger.info("Successfully connected to Events Kafka.")
+        logger.info("Successfully connected to Events Kafka")
         events_connected = True
     except:
         logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
@@ -33,7 +33,7 @@ while not logs_connected:
         logs_topic = logs_client.topics[str.encode(kafka_logs_topic)]
         logs_producer = logs_topic.get_sync_producer()
         
-        logger.info("Successfully connected to Logger Kafka.")
+        logger.info("Successfully connected to Logger Kafka")
         logs_connected = True
     except:
         logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")

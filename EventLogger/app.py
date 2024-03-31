@@ -32,7 +32,8 @@ while not kafka_connected:
             auto_offset_reset=OffsetType.LATEST
         )
 
-        event_connected = True
+        logger.info("Successfully connected to Kafka")
+        kafka_connected = True
     except:
         logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
         time.sleep(5)
@@ -43,6 +44,7 @@ while not sqlite_connected:
         Base.metadata.bind = DB_ENGINE
         DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
+        logger.info("Successfully connected to SQLite")
         sqlite_connected = True
     except Exception as e:
         logger.error("Failed to connect to SQLite database, retrying in 5 seconds")
