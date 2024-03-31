@@ -1,6 +1,7 @@
 import connexion
 import time
 
+from threading import Thread
 from connexion.middleware import MiddlewarePosition
 from starlette.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -85,11 +86,11 @@ def update_logs():
     logger.info("Ended periodic event logging")
 
 
-def init_scheduler():
-    sched = BackgroundScheduler(daemon=True)
-    sched.add_job(update_logs, 'interval', seconds=seconds)
+# def init_scheduler():
+#     sched = BackgroundScheduler(daemon=True)
+#     sched.add_job(update_logs, 'interval', seconds=seconds)
 
-    sched.start()
+#     sched.start()
     
 
 app = connexion.FlaskApp(__name__, specification_dir='')
@@ -97,6 +98,9 @@ app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION,
 app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
-    init_scheduler()
+    # init_scheduler()
+    t1 = Thread(target=update_logs)
+    t1.setDaemon(True)
+    t1.start()
 
     app.run(host="0.0.0.0", port=8120)

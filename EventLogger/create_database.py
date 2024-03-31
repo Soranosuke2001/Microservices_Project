@@ -14,6 +14,10 @@ create_table1 = '''
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     message TEXT NOT NULL,
                     message_code TEXT NOT NULL,
+                    code_0001 TEXT NOT NULL,
+                    code_0002 TEXT NOT NULL,
+                    code_0003 TEXT NOT NULL,
+                    code_0004 TEXT NOT NULL,
                     date_created DATETIME NOT NULL
                 )
                 '''
