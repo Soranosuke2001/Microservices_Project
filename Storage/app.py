@@ -57,13 +57,13 @@ while not event_connected:
         logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
         time.sleep(5)
 
-while not logs_connected:
+while not log_connected:
     try:
         logs_client = KafkaClient(hosts=f'{kafka_logs_hostname}:{kafka_logs_port}')
         logs_topic = logs_client.topics[str.encode(kafka_logs_topic)]
         logs_producer = logs_topic.get_sync_producer()
         
-        logs_connected = True
+        log_connected = True
     except:
         logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")
         time.sleep(5)
