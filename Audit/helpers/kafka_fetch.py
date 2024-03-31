@@ -10,15 +10,16 @@ def log_debug(logger: Logger, event_name, trace_id):
 
 
 def kafka_fetch(kafka_hostname, kafka_port, kafka_topic, event_type, index, logger: Logger):
-    client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-    topic = client.topics[str.encode(kafka_topic)]
-
-    consumer = topic.get_simple_consumer(
-        reset_offset_on_start=True, 
-        consumer_timeout_ms=3000
-    )
 
     try:
+        client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+        topic = client.topics[str.encode(kafka_topic)]
+
+        consumer = topic.get_simple_consumer(
+            reset_offset_on_start=True, 
+            consumer_timeout_ms=3000
+        )
+
         count = 0
         test_count = 0
         
@@ -36,7 +37,8 @@ def kafka_fetch(kafka_hostname, kafka_port, kafka_topic, event_type, index, logg
                     return message["payload"], 200
 
                 count += 1
-    except:
+    except Exception as e:
+        logger.error(f"Error: {e}")
         logger.error("No more messages found...")
     finally:
         print(test_count)

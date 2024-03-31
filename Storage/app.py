@@ -16,7 +16,7 @@ from helpers.kafka_message import kafka_message, kafka_logger
 
 
 user, password, hostname, port, db = database_config()
-events_hostname, events_port, events_topic = get_kafka_event_config()
+kafka_events_hostname, kafka_events_port, kafka_events_topic = get_kafka_event_config()
 kafka_logs_hostname, kafka_logs_port, kafka_logs_topic = get_kafka_log_config()
 logger = read_log_config()
 
@@ -37,14 +37,15 @@ while not mysql_connected:
         logger.info(f"Successfully connected to DB. Hostname: {hostname}, Port: {port}")
 
         mysql_connected = True
-    except:
+    except Exception as e:
+        logger.error(f'Error: {e}')
         logger.error("Failed to connect to MySQL, retrying in 5 seconds")
         time.sleep(5)
         
 while not event_connected:
     try:
-        events_client = KafkaClient(hosts=f'{events_hostname}:{events_port}')
-        events_topic = events_client.topics[str.encode(events_topic)]
+        events_client = KafkaClient(hosts=f'{kafka_events_hostname}:{kafka_events_port}')
+        events_topic = events_client.topics[str.encode(kafka_events_topic)]
 
         events_consumer = events_topic.get_simple_consumer(
             consumer_group=b'event_group', 
@@ -53,7 +54,8 @@ while not event_connected:
         )
 
         event_connected = True
-    except:
+    except Exception as e:
+        logger.error(f"Error: {e}")
         logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
         time.sleep(5)
 
@@ -64,7 +66,8 @@ while not log_connected:
         logs_producer = logs_topic.get_sync_producer()
         
         log_connected = True
-    except:
+    except Exception as e:
+        logger.error(f"Error: {e}")
         logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")
         time.sleep(5)
 

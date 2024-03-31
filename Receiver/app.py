@@ -23,7 +23,8 @@ while not events_connected:
 
         logger.info("Successfully connected to Events Kafka")
         events_connected = True
-    except:
+    except Exception as e:
+        logger.error(f"Error: {e}")
         logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
         time.sleep(5)
 
@@ -35,7 +36,8 @@ while not logs_connected:
         
         logger.info("Successfully connected to Logger Kafka")
         logs_connected = True
-    except:
+    except Exception as e:
+        logger.error(f"Error: {e}")
         logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")
         time.sleep(5)
 
