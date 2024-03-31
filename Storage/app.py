@@ -53,6 +53,7 @@ while not event_connected:
             auto_offset_reset=OffsetType.LATEST
         )
 
+        logger.info("Successfully connected to Event Kafka")
         event_connected = True
     except Exception as e:
         logger.error(f"Error: {e}")
@@ -65,6 +66,7 @@ while not log_connected:
         logs_topic = logs_client.topics[str.encode(kafka_logs_topic)]
         logs_producer = logs_topic.get_sync_producer()
         
+        logger.info("Successfully connected to Logger Kafka")
         log_connected = True
     except Exception as e:
         logger.error(f"Error: {e}")

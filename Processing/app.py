@@ -71,7 +71,7 @@ def populate_stats():
 
     data = check_db(session, Stats)
 
-    new_data = update_storage(logger, data, events_producer)
+    new_data = update_storage(logger, data, logs_producer)
 
     if new_data == "error":
         return

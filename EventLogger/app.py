@@ -26,7 +26,7 @@ sqlite_connected = False
 while not kafka_connected:
     try:
         events_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-        events_topic = events_client.topics[str.encode(events_topic)]
+        events_topic = events_client.topics[str.encode(kafka_topic)]
 
         events_consumer = events_topic.get_simple_consumer(
             consumer_group=b'event_group', 
