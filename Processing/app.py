@@ -26,17 +26,18 @@ DB_ENGINE = create_engine("sqlite:///%s" %filename)
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-kafka_connected = False
+logs_connected = False
 
-while not kafka_connected:
+while not logs_connected:
     try:
-        events_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-        events_topic = events_client.topics[str.encode(kafka_topic)]
-        events_producer = events_topic.get_sync_producer()
-
-        kafka_connected = True
+        logs_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+        logs_topic = logs_client.topics[str.encode(kafka_topic)]
+        logs_producer = logs_topic.get_sync_producer()
+        
+        logger.info("Successfully connected to Logger Kafka.")
+        logs_connected = True
     except:
-        logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
+        logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")
         time.sleep(5)
 
 
