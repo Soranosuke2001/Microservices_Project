@@ -42,7 +42,7 @@ paths:
                     type: string
 components:
   schemas:
-    EventsStats:
+    EventStats:
       required:
       - "0001"
       - "0002"
