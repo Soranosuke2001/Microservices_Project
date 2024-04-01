@@ -12,7 +12,7 @@ mysql:
   password: "sora"
   db: events
 events:
-  hostname: kafka
+  hostname: localhost
   port: 9092
   topic: event_log
 kafka:

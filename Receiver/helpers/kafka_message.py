@@ -24,3 +24,5 @@ def kafka_logger(producer):
 
     msg_str = json.dumps(msg)
     producer.produce(msg_str.encode('utf-8'))
+
+    print("CONNECTED TO EVENT_LOG KAKFKA BULLSHIT")

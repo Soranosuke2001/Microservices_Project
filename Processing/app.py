@@ -4,7 +4,6 @@ import time
 from datetime import datetime
 from connexion.middleware import MiddlewarePosition
 from pykafka import KafkaClient
-from pykafka.common import OffsetType
 from starlette.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy import create_engine
@@ -116,7 +115,7 @@ if __name__ == "__main__":
     time.sleep(20)
     
     init_scheduler()
-    kafka_logger()
+    kafka_logger(logs_producer)
     app.run(host="0.0.0.0", port=8100)
 
 
