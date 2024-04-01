@@ -23,24 +23,6 @@ time.sleep(10)
 kafka_connected = False
 sqlite_connected = False
 
-while not kafka_connected:
-    try:
-        events_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-        events_topic = events_client.topics[str.encode(kafka_topic)]
-
-        events_consumer = events_topic.get_simple_consumer(
-            consumer_group=b'event_group', 
-            reset_offset_on_start=False, 
-            auto_offset_reset=OffsetType.LATEST
-        )
-
-        logger.info("Successfully connected to Kafka")
-        kafka_connected = True
-    except Exception as e:
-        logger.error(f"Error: {e}")
-        logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
-        time.sleep(5)
-
 while not sqlite_connected:
     try:
         DB_ENGINE = create_engine("sqlite:///%s" %filename)
@@ -51,6 +33,24 @@ while not sqlite_connected:
         sqlite_connected = True
     except Exception as e:
         logger.error("Failed to connect to SQLite database, retrying in 5 seconds")
+        time.sleep(5)
+
+while not kafka_connected:
+    try:
+        events_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
+        events_topic = events_client.topics[str.encode(kafka_topic)]
+
+        events_consumer = events_topic.get_simple_consumer(
+            consumer_group=b'log_group', 
+            reset_offset_on_start=False, 
+            auto_offset_reset=OffsetType.LATEST
+        )
+
+        logger.info("Successfully connected to Kafka")
+        kafka_connected = True
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
         time.sleep(5)
 
 
