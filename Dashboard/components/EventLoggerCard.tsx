@@ -2,14 +2,6 @@
 
 import { FC, useEffect, useState } from "react";
 import { toast } from "sonner";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import Loading from "./Loading";
 import { getCurrentDateTime } from "@/lib/currentDate";
 import EventStatsCard from "./EventStatsCard";
 
