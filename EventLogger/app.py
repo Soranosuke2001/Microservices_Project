@@ -86,8 +86,12 @@ def update_logs():
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
-app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
+
+# if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
+#     app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+#     app.app.config['CORS_HEADERS'] = 'Content-Type'
+
+app.add_api("./config/openapi.yml", base_path="/event_logger", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
     t1 = Thread(target=update_logs)

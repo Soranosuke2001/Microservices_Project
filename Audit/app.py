@@ -36,7 +36,7 @@ app = connexion.FlaskApp(__name__, specification_dir='')
 #     app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 #     app.app.config['CORS_HEADERS'] = 'Content-Type'
 
-app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
+app.add_api("./config/openapi.yml", base_path="/audit_log", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8110)

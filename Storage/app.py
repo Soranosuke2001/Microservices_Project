@@ -106,7 +106,7 @@ def process_messages():
     kafka_message(DB_SESSION, events_consumer, logger)
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
+app.add_api("./config/openapi.yml", base_path="/storage", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
     t1 = Thread(target=process_messages)

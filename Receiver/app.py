@@ -80,7 +80,7 @@ def log_message(trace_id, event_name, event, status_code=400):
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
+app.add_api("./config/openapi.yml", base_path="/receiver", strict_validation=True, validate_response=True)
 
 
 if __name__ == "__main__":
