@@ -31,7 +31,11 @@ def log_info(event_type, start_timestamp, end_timestamp, result_len):
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+# if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
+#     app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+#     app.app.config['CORS_HEADERS'] = 'Content-Type'
+
 app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
