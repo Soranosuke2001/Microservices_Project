@@ -10,7 +10,7 @@ kafka_events_hostname, kafka_events_port, kafka_events_topic = get_kafka_config(
 kafka_logs_hostname, kafka_logs_port, kafka_logs_topic = get_kafka_event_logs_config()
 logger = read_log_config() 
 
-time.sleep(10)
+time.sleep(20)
 
 events_connected = False
 logs_connected = False
