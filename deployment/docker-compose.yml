@@ -97,6 +97,7 @@ services:
       - /home/soranosuke/logs:/logs
     depends_on:
       - kafka
+      - event_logger
 
   storage:
     image: soranosuke/storage:latest
@@ -113,6 +114,7 @@ services:
     depends_on:
       - kafka
       - db
+      - event_logger
 
   processing:
     image: soranosuke/processing:latest
@@ -130,6 +132,7 @@ services:
     depends_on:
       - kafka
       - db
+      - event_logger
   
   dashboard:
     image: soranosuke/dashboard:latest
