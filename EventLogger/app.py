@@ -1,13 +1,13 @@
-import connexion
 import time
-
 from threading import Thread
-from connexion.middleware import MiddlewarePosition
-from starlette.middleware.cors import CORSMiddleware
+
+import connexion
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
+# from connexion.middleware import MiddlewarePosition
+# from starlette.middleware.cors import CORSMiddleware
 
 from base import Base
 
@@ -20,37 +20,38 @@ logger = read_log_config()
 
 time.sleep(10)
 
-kafka_connected = False
-sqlite_connected = False
+KAFKA_CONNECTED = False
+SQLITE_CONNECTED = False
 
-while not sqlite_connected:
+while not SQLITE_CONNECTED:
     try:
-        DB_ENGINE = create_engine("sqlite:///%s" %filename)
+        DB_ENGINE = create_engine(f"sqlite:///{filename}")
         Base.metadata.bind = DB_ENGINE
         DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
         logger.info("Successfully connected to SQLite")
-        sqlite_connected = True
-    except Exception as e:
-        logger.error("Failed to connect to SQLite database, retrying in 5 seconds")
+        SQLITE_CONNECTED = True
+    except Exception as sqlite_error:
+        logger.error(
+            "Failed to connect to SQLite database, retrying in 5 seconds")
         time.sleep(5)
 
-while not kafka_connected:
+while not KAFKA_CONNECTED:
     try:
         events_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
         events_topic = events_client.topics[str.encode(kafka_topic)]
 
         events_consumer = events_topic.get_simple_consumer(
-            consumer_group=b'log_group', 
-            reset_offset_on_start=False, 
+            consumer_group=b'log_group',
+            reset_offset_on_start=False,
             auto_offset_reset=OffsetType.LATEST
         )
 
         logger.info("Successfully connected to Kafka")
-        kafka_connected = True
-    except Exception as e:
-        logger.error(f"Error: {e}")
-        logger.error("Failed to connect to events Kafka, retrying in 5 seconds")
+        KAFKA_CONNECTED = True
+    except Exception as kafka_error:
+        logger.error(
+            "Failed to connect to events Kafka, retrying in 5 seconds")
         time.sleep(5)
 
 
@@ -71,8 +72,9 @@ def fetch_event_stats():
 
         return data, 200
     except Exception as e:
-        logger.error("There was an error fetching the data entry from SQLite database.")
-        return { 'message': e }, 400
+        logger.error(
+            "There was an error fetching the data entry from SQLite database.")
+        return {'message': e}, 400
 
 
 def update_logs():
@@ -88,10 +90,18 @@ def update_logs():
 app = connexion.FlaskApp(__name__, specification_dir='')
 
 # if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
-#     app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+#     app.add_middleware(CORSMiddleware,
+#                        position=MiddlewarePosition.BEFORE_EXCEPTION,
+#                        allow_origins=["*"],
+#                        allow_credentials=True,
+#                        allow_methods=["*"],
+#                        allow_headers=["*"])
 #     app.app.config['CORS_HEADERS'] = 'Content-Type'
 
-app.add_api("./config/openapi.yml", base_path="/event_logger", strict_validation=True, validate_response=True)
+app.add_api("./config/openapi.yml",
+            base_path="/event_logger",
+            strict_validation=True,
+            validate_response=True)
 
 if __name__ == "__main__":
     t1 = Thread(target=update_logs)

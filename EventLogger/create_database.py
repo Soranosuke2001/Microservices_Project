@@ -8,7 +8,7 @@ connection = sqlite3.connect(filename)
 
 c = connection.cursor()
 
-create_table1 = '''
+CREATE_TABLE = '''
                 CREATE TABLE IF NOT EXISTS event_logs
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,8 +22,7 @@ create_table1 = '''
                 )
                 '''
 
-c.execute(create_table1)
+c.execute(CREATE_TABLE)
 
 connection.commit()
 connection.close()
-
