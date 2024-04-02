@@ -2,7 +2,6 @@
 
 *.log
 *.jmx
-*.docx
 
 **/__pycache__/
 **/.DS_Store
