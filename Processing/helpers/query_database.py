@@ -13,7 +13,7 @@ from helpers.kafka_message import kafka_max_count
 
 filename, seconds, url = get_sqlite_config()
 hostname, user, password, port, db = get_mysql_config()
-kafka_threshold = get_kafka_threshold()
+kafka_threshold = int(get_kafka_threshold())
 
 time.sleep(10)
 
@@ -106,6 +106,7 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
 
     total_messages = len(gs_events) + len(ph_events)
 
+    print(type(kafka_threshold))
     if total_messages > kafka_threshold:
         kafka_max_count(producer, kafka_threshold)
 

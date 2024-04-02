@@ -59,10 +59,8 @@ def get_kafka_config():
 def get_kafka_threshold():
     app_config = conf_filename('app')
 
-    threshold = int(app_config['events']['threshold'])
+    threshold = app_config['events']['threshold']
 
-
-    print(type(threshold))
     return threshold
 
 
