@@ -102,7 +102,6 @@ services:
   processing:
     image: soranosuke/processing:latest
     platform: linux/amd64
-    network_mode: host
     ports:
       - '8100'
     networks:
