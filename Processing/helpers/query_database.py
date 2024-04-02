@@ -106,7 +106,6 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
 
     total_messages = len(gs_events) + len(ph_events)
 
-    print(type(kafka_threshold))
     if total_messages > kafka_threshold:
         kafka_max_count(producer, kafka_threshold)
 

@@ -47,7 +47,7 @@ def get_sqlite_config():
 
 
 def get_kafka_config():
-    app_config = conf_filename('app')
+    app_config = read_app_config()
 
     hostname = app_config['events']['hostname']
     port = app_config['events']['port']
@@ -57,7 +57,7 @@ def get_kafka_config():
 
 
 def get_kafka_threshold():
-    app_config = conf_filename('app')
+    app_config = read_app_config()
 
     threshold = app_config['events']['threshold']
 
