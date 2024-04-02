@@ -15,6 +15,4 @@ events:
   hostname: kafka
   port: 9092
   topic: event_log
-kafka:
-  max:
-    count: 25
+  threshold: 25
