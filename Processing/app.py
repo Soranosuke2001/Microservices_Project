@@ -32,7 +32,7 @@ logs_connected = False
 while not logs_connected:
     try:
         logs_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-        logs_topic = logs_client.topics[str.encode(kafka_topic)]
+        logs_topic = logs_client.topics[kafka_topic.encode('utf-8')]
         logs_producer = logs_topic.get_sync_producer()
         
         logger.info("Successfully connected to Logger Kafka.")
@@ -108,7 +108,11 @@ def init_scheduler():
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+# if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
+#     app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+#     app.app.config['CORS_HEADERS'] = 'Content-Type'
+
 app.add_api("./config/openapi.yml", strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
