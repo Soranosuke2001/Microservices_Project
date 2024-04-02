@@ -4,15 +4,15 @@ datastore:
 scheduler:
   period_sec: 5
 eventstore:
-  url: http://localhost:8090
+  url: http://35.230.127.229/storage
 mysql:
-  url: localhost
+  url: db
   port: 3306
   user: "sora"
   password: "sora"
   db: events
 events:
-  hostname: localhost
+  hostname: kafka
   port: 9092
   topic: event_log
 kafka:
