@@ -71,30 +71,45 @@ services:
   audit_log:
     image: soranosuke/audit_log:latest
     platform: linux/amd64
-    ports:
-      - '8110'
+    environment:
+      - TARGET_ENV=test
     networks:
       - api.network
+    ports:
+      - '8110'
+    volumes:
+      - /home/soranosuke/config/audit_log:/config
+      - /home/soranosuke/logs:/logs
     depends_on:
       - kafka
 
   receiver:
     image: soranosuke/receiver:latest
     platform: linux/amd64
-    ports:
-      - '8080'
+    environment:
+      - TARGET_ENV=test
     networks:
       - api.network
+    ports:
+      - '8080'
+    volumes:
+      - /home/soranosuke/config/receiver:/config
+      - /home/soranosuke/logs:/logs
     depends_on:
       - kafka
 
   storage:
     image: soranosuke/storage:latest
     platform: linux/amd64
-    ports:
-      - '8090'
+    environment:
+      - TARGET_ENV=test
     networks:
       - api.network
+    ports:
+      - '8090'
+    volumes:
+      - /home/soranosuke/config/storage:/config
+      - /home/soranosuke/logs:/logs
     depends_on:
       - kafka
       - db
@@ -102,11 +117,15 @@ services:
   processing:
     image: soranosuke/processing:latest
     platform: linux/amd64
-    ports:
-      - '8100'
+    environment:
+      - TARGET_ENV=test
     networks:
       - api.network
+    ports:
+      - '8100'
     volumes:
+      - /home/soranosuke/config/processing:/config
+      - /home/soranosuke/logs:/logs
       - processing-db:/data
     depends_on:
       - kafka
@@ -126,6 +145,8 @@ services:
   event_logger:
     image: soranosuke/event_logger:latest
     platform: linux/amd64
+    environment:
+      - TARGET_ENV=test
     ports:
       - '8120'
     networks:
