@@ -84,8 +84,6 @@ app.add_api("./config/openapi.yml", base_path="/receiver", strict_validation=Tru
 
 
 if __name__ == "__main__":
-    print("Running the service")
     kafka_logger(logs_producer)
-    print("The kafka logs event message was sent")
     
     app.run(host="0.0.0.0", port=8080)
