@@ -57,5 +57,5 @@ with open("dates.csv", mode='w', newline='', encoding="utf-8") as file:
         # Adjusted format to include microseconds with a decimal separator
         writer.writerow({
             "id": str(uuid.uuid4()),
-            "date": date.strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z"  # Truncate to milliseconds and append 'Z'
+            "date": date.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"  # Truncate to milliseconds and append 'Z'
         })
