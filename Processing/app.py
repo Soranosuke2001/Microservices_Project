@@ -2,12 +2,12 @@ import connexion
 import time
 
 from datetime import datetime
-from connexion.middleware import MiddlewarePosition
 from pykafka import KafkaClient
-from starlette.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+# from connexion.middleware import MiddlewarePosition
+# from starlette.middleware.cors import CORSMiddleware
 
 from base import Base
 from stats import Stats
@@ -15,10 +15,11 @@ from stats import Stats
 from helpers.log_message import start_request, end_request, data_found, data_not_found, start_periodic, end_periodic, updated_db, no_events
 from helpers.kafka_message import kafka_logger
 from helpers.query_database import row_counter, check_db, update_storage
-from helpers.read_config import get_sqlite_config, read_log_config, get_kafka_config
+from helpers.read_config import get_sqlite_config, read_log_config, get_kafka_config, read_flask_config
 
 filename, seconds, url = get_sqlite_config()    
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
+flask_host, flask_port = read_flask_config()
 logger = read_log_config()
 
 DB_ENGINE = create_engine("sqlite:///%s" %filename)
@@ -120,6 +121,4 @@ if __name__ == "__main__":
     
     init_scheduler()
     kafka_logger(logs_producer)
-    app.run(host="0.0.0.0", port=8100)
-
-
+    app.run(host=flask_host, port=flask_port)
