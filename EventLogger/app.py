@@ -11,11 +11,12 @@ from pykafka.common import OffsetType
 
 from base import Base
 
-from helpers.read_config import get_sqlite_config, read_log_config, get_kafka_config
+from helpers.read_config import get_sqlite_config, read_log_config, get_kafka_config, read_flask_config
 from helpers.query_database import check_prev_data, update_db
 
 filename, seconds, url = get_sqlite_config()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
+flask_host, flask_port = read_flask_config()
 logger = read_log_config()
 
 time.sleep(10)
@@ -108,4 +109,4 @@ if __name__ == "__main__":
     t1.setDaemon(True)
     t1.start()
 
-    app.run(host="0.0.0.0", port=8120)
+    app.run(host=flask_host, port=flask_port)
