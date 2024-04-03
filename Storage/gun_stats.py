@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from base import Base
 from datetime import datetime
+
+from base import Base
+from sqlalchemy import Column, Integer, String, DateTime
 
 class GunStats(Base):
     """ Gun Stats """
@@ -44,3 +45,4 @@ class GunStats(Base):
         dict['num_missed_shots'] = self.num_missed_shots
 
         return dict
+    

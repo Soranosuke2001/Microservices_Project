@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from base import Base
 from datetime import datetime
+
+from base import Base
+from sqlalchemy import Column, Integer, String, DateTime
 
 class PurchaseHistory(Base):
     """ Item Purchase History """
@@ -38,3 +39,4 @@ class PurchaseHistory(Base):
         dict['date_created'] = self.date_created
 
         return dict
+    

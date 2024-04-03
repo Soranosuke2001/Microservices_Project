@@ -1,4 +1,5 @@
-import mysql.connector, time
+import time
+import mysql.connector
 
 from helpers.read_config import database_config
 
@@ -7,17 +8,16 @@ if __name__ == "__main__":
 
     time.sleep(10)
 
-    connected = False
+    CONNECTED = False
 
-    while not connected:
+    while not CONNECTED:
         try:
             connection = mysql.connector.connect(host=hostname, user=user, password=password)
-            connected = True
+            CONNECTED = True
         except Exception as e:
             print("Database not yet available, retrying in 10 seconds")
             time.sleep(10)
-    
-    # connection = mysql.connector.connect(host=hostname, user=user, password=password)
+
     c = connection.cursor()
 
     c.execute(f"CREATE DATABASE IF NOT EXISTS {db}")
@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     c = connection.cursor()
 
-    create_table1 = '''
+    CREATE_TABLE1 = '''
                     CREATE TABLE IF NOT EXISTS gun_stats
                     (
                         id INT NOT NULL AUTO_INCREMENT,
@@ -46,7 +46,7 @@ if __name__ == "__main__":
                     )
                     '''
 
-    create_table2 = '''
+    CREATE_TABLE2 = '''
                     CREATE TABLE IF NOT EXISTS purchase_history
                     (
                         id INT NOT NULL AUTO_INCREMENT,
@@ -61,8 +61,8 @@ if __name__ == "__main__":
                     )
                     '''
 
-    c.execute(create_table1)
-    c.execute(create_table2)
+    c.execute(CREATE_TABLE1)
+    c.execute(CREATE_TABLE2)
 
     connection.commit()
     connection.close()
