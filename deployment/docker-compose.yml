@@ -155,6 +155,8 @@ services:
     networks:
       - api.network
     volumes:
+      - /home/soranosuke/config/event_logger:/config
+      - /home/soranosuke/logs:/logs
       - event_logger-db:/data
     depends_on:
       - kafka
