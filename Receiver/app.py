@@ -1,13 +1,16 @@
 from connexion import NoContent
-import connexion, uuid, time
+import connexion
+import uuid
+import time
 from pykafka import KafkaClient
 
-from helpers.read_config import get_urls, read_log_config, get_kafka_config, get_kafka_event_logs_config
+from helpers.read_config import get_urls, read_log_config, get_kafka_config, get_kafka_event_logs_config, read_flask_config
 from helpers.kafka_message import kafka_event_message, kafka_logger
 
 gun_stat_url, item_transaction_url = get_urls()
 kafka_events_hostname, kafka_events_port, kafka_events_topic = get_kafka_config()
 kafka_logs_hostname, kafka_logs_port, kafka_logs_topic = get_kafka_event_logs_config()
+flask_host, flask_port = read_flask_config()
 logger = read_log_config() 
 
 time.sleep(20)
@@ -86,4 +89,4 @@ app.add_api("./config/openapi.yml", base_path="/receiver", strict_validation=Tru
 if __name__ == "__main__":
     kafka_logger(logs_producer)
     
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host=flask_host, port=flask_port)

@@ -28,6 +28,15 @@ def get_kafka_config():
     return hostname, port, topic
 
 
+def read_flask_config():
+    app_config = read_app_config()
+
+    host = str(app_config['app']['host'])
+    port = app_config['app']['port']
+
+    return host, port
+
+
 def read_log_config():
     with open('./config/log_conf.yml', 'r') as file:
         log_config = yaml.safe_load(file.read())
