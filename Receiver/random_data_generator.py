@@ -1,32 +1,39 @@
-import csv, uuid
+"""
+This script generates random data for transactions, users, and dates, and writes them to CSV files.
+It creates 'transactions.csv' with transaction IDs, user IDs, and item IDs,
+'users.csv' with game IDs, user IDs, and gun IDs, and 'dates.csv' with unique IDs and dates.
+"""
+
+import csv
+import uuid
 import random
 from datetime import datetime, timedelta
 
-
-with open("transactions.csv", "w", newline="") as file:
+# Generate transactions.csv with transaction data
+with open("transactions.csv", "w", newline="", encoding="utf-8") as file:
     writer = csv.DictWriter(file, fieldnames=["transaction_id", "user_id", "item_id"])
     writer.writeheader()
 
     for _ in range(1500):
         writer.writerow({
-            "transaction_id": uuid.uuid4(),
-            "user_id": uuid.uuid4(),
-            "item_id": uuid.uuid4(),
+            "transaction_id": str(uuid.uuid4()),
+            "user_id": str(uuid.uuid4()),
+            "item_id": str(uuid.uuid4()),
         })
 
-
-with open("users.csv", "w", newline="") as file:
+# Generate users.csv with user data
+with open("users.csv", "w", newline="", encoding="utf-8") as file:
     writer = csv.DictWriter(file, fieldnames=["game_id", "user_id", "gun_id"])
     writer.writeheader()
 
     for _ in range(1500):
         writer.writerow({
-            "game_id": uuid.uuid4(),
-            "user_id": uuid.uuid4(),
-            "gun_id": uuid.uuid4(),
+            "game_id": str(uuid.uuid4()),
+            "user_id": str(uuid.uuid4()),
+            "gun_id": str(uuid.uuid4()),
         })
 
-
+# Generate a list of random datetimes
 datetimes = []
 start_date = datetime(2020, 1, 1)
 end_date = datetime(2024, 12, 31)
@@ -38,13 +45,13 @@ for _ in range(1000):
 
     datetimes.append(random_datetime)
 
-
-with open("dates.csv", mode='w', newline='') as file:
+# Generate dates.csv with datetime data
+with open("dates.csv", mode='w', newline='', encoding="utf-8") as file:
     writer = csv.DictWriter(file, fieldnames=["id", "date"])
     writer.writeheader()
 
     for date in datetimes:
         writer.writerow({
-            "id": uuid.uuid4(),
+            "id": str(uuid.uuid4()),
             "date": date.strftime("%Y-%m-%dT%H:%M:%SZ")
         })
