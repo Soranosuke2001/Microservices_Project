@@ -73,6 +73,14 @@ def read_flask_config():
     return host, port
 
 
+def read_request_config():
+    app_config = read_app_config()
+
+    timeout = app_config['request']['timeout']
+
+    return timeout
+
+
 def read_log_config():
     log_conf_file = conf_filename('log')
 

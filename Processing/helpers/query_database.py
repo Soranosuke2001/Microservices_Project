@@ -7,13 +7,14 @@ from base import Base
 from tables.gun_stats import GunStats
 from tables.purchase_history import PurchaseHistory
 
-from helpers.read_config import get_sqlite_config, get_mysql_config, get_kafka_threshold
+from helpers.read_config import get_sqlite_config, get_mysql_config, get_kafka_threshold, read_request_config
 from helpers.log_message import success_response, error_response, log_events
 from helpers.kafka_message import kafka_max_count
 
 filename, seconds, url = get_sqlite_config()
 hostname, user, password, port, db = get_mysql_config()
 kafka_threshold = int(get_kafka_threshold())
+request_timeout = read_request_config()
 
 time.sleep(10)
 
@@ -151,8 +152,8 @@ def update_storage(logger, stats_data, producer):
         "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     }
 
-    gs_res = requests.get(f"{url}/get/gun_stats", params=params)
-    ph_res = requests.get(f"{url}/get/purchase_transactions", params=params)
+    gs_res = requests.get(f"{url}/get/gun_stats", params=params, timeout=request_timeout)
+    ph_res = requests.get(f"{url}/get/purchase_transactions", params=params, timeout=request_timeout)
 
     if gs_res.status_code != 201:
         error_response(logger, "gs")
