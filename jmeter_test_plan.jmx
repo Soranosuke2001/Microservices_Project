@@ -62,10 +62,10 @@
             <stringProp name="variableName">item_price</stringProp>
           </RandomVariableConfig>
           <hashTree/>
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config">
             <stringProp name="delimiter">,</stringProp>
             <stringProp name="fileEncoding"></stringProp>
-            <stringProp name="filename">/Users/soranosuke/Documents/BCIT/CIT Sem 4/ACIT 3855 Service Based Architectures/Labs/Project/Storage/data/transactions.csv</stringProp>
+            <stringProp name="filename">/Users/soranosuke/Documents/BCIT/CIT Sem 4/ACIT 3855 Service Based Architectures/Labs/Project/DataGenerator/transactions.csv</stringProp>
             <boolProp name="ignoreFirstLine">true</boolProp>
             <boolProp name="quotedData">false</boolProp>
             <boolProp name="recycle">true</boolProp>
@@ -74,8 +74,8 @@
             <stringProp name="variableNames">transaction_id,user_id,item_id</stringProp>
           </CSVDataSet>
           <hashTree/>
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-            <stringProp name="filename">/Users/soranosuke/Documents/BCIT/CIT Sem 4/ACIT 3855 Service Based Architectures/Labs/Project/Storage/data/dates.csv</stringProp>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config">
+            <stringProp name="filename">/Users/soranosuke/Documents/BCIT/CIT Sem 4/ACIT 3855 Service Based Architectures/Labs/Project/DataGenerator/dates.csv</stringProp>
             <stringProp name="fileEncoding"></stringProp>
             <stringProp name="variableNames">id,date</stringProp>
             <boolProp name="ignoreFirstLine">true</boolProp>
@@ -158,8 +158,8 @@
             <boolProp name="perThread">false</boolProp>
           </RandomVariableConfig>
           <hashTree/>
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-            <stringProp name="filename">/Users/soranosuke/Documents/BCIT/CIT Sem 4/ACIT 3855 Service Based Architectures/Labs/Project/Storage/data/users.csv</stringProp>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config">
+            <stringProp name="filename">/Users/soranosuke/Documents/BCIT/CIT Sem 4/ACIT 3855 Service Based Architectures/Labs/Project/DataGenerator/users.csv</stringProp>
             <stringProp name="fileEncoding"></stringProp>
             <stringProp name="variableNames">game_id,user_id,gun_id</stringProp>
             <boolProp name="ignoreFirstLine">true</boolProp>
@@ -171,7 +171,7 @@
           </CSVDataSet>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
