@@ -10,7 +10,7 @@ from base import Base
 from gun_stats import GunStats
 from purchase_history import PurchaseHistory
 
-from helpers.read_config import database_config, read_log_config, get_kafka_event_config, get_kafka_log_config
+from helpers.read_config import database_config, read_log_config, get_kafka_event_config, get_kafka_log_config, read_flask_config
 from helpers.query_database import fetch_timestamp_results
 from helpers.kafka_message import kafka_message, kafka_logger
 
@@ -18,6 +18,7 @@ from helpers.kafka_message import kafka_message, kafka_logger
 user, password, hostname, port, db = database_config()
 kafka_events_hostname, kafka_events_port, kafka_events_topic = get_kafka_event_config()
 kafka_logs_hostname, kafka_logs_port, kafka_logs_topic = get_kafka_log_config()
+flask_host, flask_port = read_flask_config()
 logger = read_log_config()
 
 time.sleep(10)
@@ -115,5 +116,5 @@ if __name__ == "__main__":
 
     kafka_logger(logs_producer)
 
-    app.run(host="0.0.0.0", port=8090)
+    app.run(host=flask_host, port=flask_port)
 

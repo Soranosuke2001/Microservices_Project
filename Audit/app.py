@@ -1,55 +1,53 @@
-import connexion
-# from connexion.middleware import MiddlewarePosition
-# from starlette.middleware.cors import CORSMiddleware
+"""
+This module provides a Flask app for auditing purposes, with endpoints to fetch gun statistics
+and purchase transactions from a Kafka topic.
+"""
 
-from helpers.read_config import read_log_config, get_kafka_config
+import connexion
+
+from helpers.read_config import read_log_config, get_kafka_config, read_flask_config
 from helpers.kafka_fetch import kafka_fetch
 
-
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
+flask_host, flask_port = read_flask_config()
 logger = read_log_config()
 
-
 def fetch_gun_stat(index):
-    logger.info(f"Retrieving Gun Statistic event at index: {index}")
-
+    """Fetches gun statistic events from Kafka based on the provided index."""
+    logger.info("Retrieving Gun Statistic event at index: %s", index)
+    
     message, status_code = kafka_fetch(kafka_hostname,
                                        kafka_port,
                                        kafka_topic,
                                        "gun_stat",
                                        index,
                                        logger)
-
+    
     return message, status_code
 
-
 def fetch_purchase_transaction(index):
-    logger.info(f"Retrieving Purchase History event at index: {index}")
-
+    """Fetches purchase transaction events from Kafka based on the provided index."""
+    logger.info("Retrieving Purchase History event at index: %s", index)
+    
     message, status_code = kafka_fetch(kafka_hostname,
                                        kafka_port,
                                        kafka_topic,
                                        "purchase_history",
                                        index,
                                        logger)
-
+    
     return message, status_code
 
-
 def log_info(event_type, start_timestamp, end_timestamp, result_len):
+    """Logs information about query results for a specific event type."""
     logger.info(
-        f"Query for {event_type} events after {start_timestamp}, until {end_timestamp} return {result_len} results")
-
+        "Query for %s events after %s, until %s return %s results",
+        event_type, start_timestamp, end_timestamp, result_len)
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-
-# if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
-#     app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=[
-#                        "*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
-#     app.app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.add_api("./config/openapi.yml", base_path="/audit_log",
             strict_validation=True, validate_response=True)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8110)
+    app.run(host=flask_host, port=flask_port)

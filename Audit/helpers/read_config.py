@@ -31,7 +31,16 @@ def get_kafka_config():
     port = app_config['events']['port']
     topic = app_config['events']['topic']
 
-    return hostname, port, topic    
+    return hostname, port, topic   
+
+
+def read_flask_config():
+    app_config = read_app_config()
+
+    host = str(app_config['app']['host'])
+    port = app_config['app']['port']
+
+    return host, port
     
 
 def read_log_config():
