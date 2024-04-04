@@ -4,8 +4,6 @@ services:
   zookeeper:
     image: wurstmeister/zookeeper
     platform: linux/amd64
-    ports:
-      - "2181"
     hostname: zookeeper
     networks:
       - api.network
@@ -16,9 +14,6 @@ services:
     image: wurstmeister/kafka
     platform: linux/amd64
     command: [start-kafka.sh]
-    ports:
-      - "9092:9092"
-    hostname: kafka
     networks:
       - api.network
     environment:
@@ -46,8 +41,6 @@ services:
       MYSQL_USER: 'sora'
       MYSQL_PASSWORD: 'sora'
       MYSQL_ROOT_PASSWORD: 'sora'
-    ports:
-      - '3306'
     networks:
       - api.network
     volumes:
@@ -75,8 +68,6 @@ services:
       - TARGET_ENV=test
     networks:
       - api.network
-    ports:
-      - '8110'
     volumes:
       - /home/soranosuke/config/audit_log:/config
       - /home/soranosuke/logs:/logs
@@ -90,8 +81,6 @@ services:
       - TARGET_ENV=test
     networks:
       - api.network
-    ports:
-      - '8080'
     volumes:
       - /home/soranosuke/config/receiver:/config
       - /home/soranosuke/logs:/logs
@@ -106,8 +95,6 @@ services:
       - TARGET_ENV=test
     networks:
       - api.network
-    ports:
-      - '8090'
     volumes:
       - /home/soranosuke/config/storage:/config
       - /home/soranosuke/logs:/logs
@@ -123,8 +110,6 @@ services:
       - TARGET_ENV=test
     networks:
       - api.network
-    ports:
-      - '8100'
     volumes:
       - /home/soranosuke/config/processing:/config
       - /home/soranosuke/logs:/logs
@@ -137,8 +122,6 @@ services:
   dashboard:
     image: soranosuke/dashboard:latest
     platform: linux/amd64
-    ports:
-      - '3000'
     networks:
       - api.network
     depends_on:
@@ -150,8 +133,6 @@ services:
     platform: linux/amd64
     environment:
       - TARGET_ENV=test
-    ports:
-      - '8120'
     networks:
       - api.network
     volumes:

@@ -2,7 +2,7 @@ version: 1
 newItemTransaction:
   url: http://localhost:8090/new/item_transaction
 newGunStat:
-  url: http://storage:8090/new/gun_stat
+  url: http://localhost:8090/new/gun_stat
 events:
   hostname: kafka
   port: 9092
