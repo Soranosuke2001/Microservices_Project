@@ -47,10 +47,10 @@ def get_sqlite_config(filename):
         sqlite_filename = app_config['datastore']['filename']
 
         return sqlite_filename
-    
-    url = app_config['eventstore']['url']
+    elif filename == 'query':
+        url = app_config['eventstore']['url']
 
-    return sqlite_filename, seconds, url
+        return url
 
 
 def get_kafka_config():
