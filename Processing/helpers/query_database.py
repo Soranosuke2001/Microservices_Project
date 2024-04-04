@@ -18,15 +18,15 @@ request_timeout = read_request_config()
 
 time.sleep(10)
 
-connected = False
+CONNECTED = False
 
-while not connected:
+while not CONNECTED:
     try:
         DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
         Base.metadata.bind = DB_ENGINE
         DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-        connected = True
+        CONNECTED = True
     except Exception as e:
         print("Failed to connect to MySQL, retrying in 5 seconds")
         time.sleep(5)
@@ -102,9 +102,30 @@ def count_sum(count, events, property):
     return count
 
 
-def update_stats(producer, stats_data, gs_events, ph_events, new_event):
-    last_updated = stats_data['last_updated']
+def update_last_updated(gs_events, ph_events, stats_last_updated):
+    if len(gs_events) > 0 and len(ph_events) > 0:
+        gs_last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        ph_last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
 
+        if gs_last_updated > ph_last_updated:
+            last_updated = gs_last_updated
+        else:
+            last_updated = ph_last_updated
+        
+        return last_updated
+    elif len(gs_events) > 0 and len(ph_events) == 0:
+        last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+
+        return last_updated
+    elif len(gs_events) == 0 and len(ph_events) > 0:
+        last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+
+        return last_updated
+    
+    return stats_last_updated
+    
+
+def update_stats(producer, stats_data, gs_events, ph_events, new_event):
     total_messages = len(gs_events) + len(ph_events)
 
     if total_messages > kafka_threshold:
@@ -113,8 +134,6 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
     if len(ph_events) > 0:
         num_ph = stats_data['num_purchase_history_events'] + len(ph_events)
         total_revenue = count_sum(stats_data['total_revenue'], ph_events, "item_price")
-
-        last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%SZ')
     else:
         num_ph = stats_data['num_purchase_history_events']
         total_revenue = stats_data['total_revenue']
@@ -123,15 +142,12 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
         num_gs = stats_data['num_gun_stat_events'] + len(gs_events)
         hs_count = count_sum(stats_data['head_shot_count'], gs_events, "num_head_shots")
         bs_count = count_sum(stats_data['bullet_shot_count'], gs_events, "num_bullets_shot")
-
-        last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%SZ')
     else:
         num_gs = stats_data['num_gun_stat_events']
         hs_count = stats_data['head_shot_count']
         bs_count = stats_data['bullet_shot_count']
     
-    if last_updated == None:
-        last_updated = stats_data['last_updated']
+    last_updated = update_last_updated(gs_events, ph_events, stats_data['last_updated'])
 
     return {
         "num_gun_stat_events": num_gs,
@@ -148,9 +164,11 @@ def update_storage(logger, stats_data, producer):
     error = False
 
     params = {
-        "start_timestamp": stats_data['last_updated'].strftime('%Y-%m-%dT%H:%M:%SZ'),
-        "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+        "start_timestamp": stats_data['last_updated'].strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
+        "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
     }
+
+    logger.critical(f"Printing the params: {params}")
 
     gs_res = requests.get(f"{url}/get/gun_stats", params=params, timeout=request_timeout)
     ph_res = requests.get(f"{url}/get/purchase_transactions", params=params, timeout=request_timeout)

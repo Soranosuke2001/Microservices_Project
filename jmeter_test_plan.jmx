@@ -20,7 +20,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP POST Request - New Item Transaction" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP POST Request - New Item Transaction">
           <stringProp name="HTTPSampler.domain">35.230.127.229</stringProp>
           <stringProp name="HTTPSampler.path">/receiver/new/item_transaction</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
