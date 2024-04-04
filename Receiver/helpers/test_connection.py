@@ -8,10 +8,10 @@ from helpers.read_config import get_kafka_config, get_kafka_event_logs_config
 kafka_events_hostname, kafka_events_port, kafka_events_topic = get_kafka_config()
 kafka_logs_hostname, kafka_logs_port, kafka_logs_topic = get_kafka_event_logs_config()
 
-EVENTS_CONNECTED = False
-LOGS_CONNECTED = False
 
 def events_kafka_connection(logger: Logger):
+    EVENTS_CONNECTED = False
+    
     # Connect to Kafka for events
     while not EVENTS_CONNECTED:
         try:
@@ -29,6 +29,8 @@ def events_kafka_connection(logger: Logger):
 
 
 def logs_kafka_connection(logger: Logger):
+    LOGS_CONNECTED = False
+    
     # Connect to Kafka for logs
     while not LOGS_CONNECTED:
         try:
