@@ -1,13 +1,14 @@
-import connexion
+import os
 import time
-
 from datetime import datetime
+
+import connexion
 from pykafka import KafkaClient
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-# from connexion.middleware import MiddlewarePosition
-# from starlette.middleware.cors import CORSMiddleware
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 
 from base import Base
 from stats import Stats
@@ -110,9 +111,9 @@ def init_scheduler():
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 
-# if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
-#     app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
-#     app.app.config['CORS_HEADERS'] = 'Content-Type'
+if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
+    app.add_middleware(CORSMiddleware, position=MiddlewarePosition.BEFORE_EXCEPTION, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+    app.app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.add_api("./config/openapi.yml", base_path="/processing", strict_validation=True, validate_response=True)
 
