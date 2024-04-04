@@ -1,4 +1,5 @@
 import time
+import os
 from threading import Thread
 
 import connexion
@@ -6,8 +7,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
-# from connexion.middleware import MiddlewarePosition
-# from starlette.middleware.cors import CORSMiddleware
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 
 from base import Base
 
@@ -90,14 +91,14 @@ def update_logs():
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 
-# if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
-#     app.add_middleware(CORSMiddleware,
-#                        position=MiddlewarePosition.BEFORE_EXCEPTION,
-#                        allow_origins=["*"],
-#                        allow_credentials=True,
-#                        allow_methods=["*"],
-#                        allow_headers=["*"])
-#     app.app.config['CORS_HEADERS'] = 'Content-Type'
+if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
+    app.add_middleware(CORSMiddleware,
+                       position=MiddlewarePosition.BEFORE_EXCEPTION,
+                       allow_origins=["*"],
+                       allow_credentials=True,
+                       allow_methods=["*"],
+                       allow_headers=["*"])
+    app.app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.add_api("./config/openapi.yml",
             base_path="/event_logger",
