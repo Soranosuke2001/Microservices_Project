@@ -148,8 +148,8 @@ def update_storage(logger, stats_data, producer):
     error = False
 
     params = {
-        "start_timestamp": stats_data['last_updated'].strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
-        "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        "start_timestamp": stats_data['last_updated'].strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
+        "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
     }
 
     logger.critical(f"Printing the params: {params}")
