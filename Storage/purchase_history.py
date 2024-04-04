@@ -15,7 +15,7 @@ class PurchaseHistory(Base):
     user_id = Column(String(250), nullable=False)
     item_price = Column(Integer, nullable=False)
     transaction_date = Column(String(100), nullable=False)
-    date_created = Column(DateTime(fsp=3), nullable=False)
+    date_created = Column(DateTime, nullable=False)
 
     def __init__(self, trace_id, transaction_id, item_id, user_id, item_price, transaction_date):
         self.trace_id = trace_id
