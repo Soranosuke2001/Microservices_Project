@@ -152,6 +152,8 @@ def update_storage(logger, stats_data, producer):
         "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
     }
 
+    logger.critical(f"Printing the params: {params}")
+
     gs_res = requests.get(f"{url}/get/gun_stats", params=params, timeout=request_timeout)
     ph_res = requests.get(f"{url}/get/purchase_transactions", params=params, timeout=request_timeout)
 
