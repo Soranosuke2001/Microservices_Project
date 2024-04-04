@@ -18,15 +18,15 @@ request_timeout = read_request_config()
 
 time.sleep(10)
 
-connected = False
+CONNECTED = False
 
-while not connected:
+while not CONNECTED:
     try:
         DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
         Base.metadata.bind = DB_ENGINE
         DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
-        connected = True
+        CONNECTED = True
     except Exception as e:
         print("Failed to connect to MySQL, retrying in 5 seconds")
         time.sleep(5)
@@ -126,8 +126,6 @@ def update_last_updated(gs_events, ph_events, stats_last_updated):
     
 
 def update_stats(producer, stats_data, gs_events, ph_events, new_event):
-    # last_updated = stats_data['last_updated']
-
     total_messages = len(gs_events) + len(ph_events)
 
     if total_messages > kafka_threshold:
@@ -136,8 +134,6 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
     if len(ph_events) > 0:
         num_ph = stats_data['num_purchase_history_events'] + len(ph_events)
         total_revenue = count_sum(stats_data['total_revenue'], ph_events, "item_price")
-
-        # last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
     else:
         num_ph = stats_data['num_purchase_history_events']
         total_revenue = stats_data['total_revenue']
@@ -146,16 +142,11 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
         num_gs = stats_data['num_gun_stat_events'] + len(gs_events)
         hs_count = count_sum(stats_data['head_shot_count'], gs_events, "num_head_shots")
         bs_count = count_sum(stats_data['bullet_shot_count'], gs_events, "num_bullets_shot")
-
-        # last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
     else:
         num_gs = stats_data['num_gun_stat_events']
         hs_count = stats_data['head_shot_count']
         bs_count = stats_data['bullet_shot_count']
     
-    # if last_updated == None:
-    #     last_updated = stats_data['last_updated']
-
     last_updated = update_last_updated(gs_events, ph_events, stats_data['last_updated'])
 
     return {
