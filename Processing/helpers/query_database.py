@@ -1,35 +1,24 @@
 from datetime import datetime
-from sqlalchemy import func, desc, create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy import func, desc
+from sqlalchemy.orm import Session
 import requests, time
 
-from base import Base
 from tables.gun_stats import GunStats
 from tables.purchase_history import PurchaseHistory
 
-from helpers.read_config import get_sqlite_config, get_mysql_config, get_kafka_threshold, read_request_config
+from helpers.read_config import get_sqlite_config, get_kafka_threshold, read_request_config, read_log_config
 from helpers.log_message import success_response, error_response, log_events
 from helpers.kafka_message import kafka_max_count
+from helpers.test_connection import mysql_connection
 
 url = get_sqlite_config('query')
-hostname, user, password, port, db = get_mysql_config()
 kafka_threshold = int(get_kafka_threshold())
 request_timeout = read_request_config()
+logger = read_log_config()
 
 time.sleep(10)
 
-CONNECTED = False
-
-while not CONNECTED:
-    try:
-        DB_ENGINE = create_engine(f'mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}')
-        Base.metadata.bind = DB_ENGINE
-        DB_SESSION = sessionmaker(bind=DB_ENGINE)
-
-        CONNECTED = True
-    except Exception as e:
-        print("Failed to connect to MySQL, retrying in 5 seconds")
-        time.sleep(5)
+DB_SESSION = mysql_connection(logger)
 
 
 def check_prev_data():
