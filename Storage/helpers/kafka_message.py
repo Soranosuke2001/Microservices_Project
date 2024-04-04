@@ -65,7 +65,7 @@ def kafka_message(DB_SESSION, consumer, logger: Logger):
 
 def kafka_logger(producer):
     msg = {
-        "datetime": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+        "datetime": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3],
         "payload": {
             "message": "Storage service successfully started",
             "message_code": "0002"
