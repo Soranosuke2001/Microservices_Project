@@ -24,7 +24,7 @@ const EventLoggerCard: FC<EventLoggerCardProps> = ({}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(process.env.NEXT_PUBLIC_EVENT_STATS_URL!);
+        const response = await fetch(process.env.NEXT_PUBLIC_EVENT_STATS_URL!, { cache: 'no-store' });
 
         if (!response.ok) {
           throw new Error("No new data found");
