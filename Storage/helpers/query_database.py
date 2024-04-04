@@ -7,7 +7,7 @@ from purchase_history import PurchaseHistory
 
 
 def convert_datetime(timestamp):
-    return datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%SZ")
+    return datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
 
 
 def fetch_timestamp_results(start_timestamp, end_timestamp, session: Session, table: GunStats | PurchaseHistory):
