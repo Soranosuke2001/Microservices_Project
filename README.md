@@ -1,7 +1,5 @@
 # ACIT 3855 Microservices Project
 
-Testing Jenkins
-
 ### Description
 
 This project is to demonstrate the microservices architecture. This application will receive 2 different types of events (Receiver Service) and will store the events to the database (Storage Service). There is a periodic processing service (Processing Service) that will calculate some statistics based on the data received. The Audit Service will allow users to fetch a specific event that was received previously. There is also a website (Dashboard Service) that will allow the user to view the statistics and is regularly updated.
@@ -39,6 +37,7 @@ We can send POST requests to the receiver service to store events. There are 2 e
 URL: `http://<ip-address>:8080/new/item_transaction`
 
 Body:
+
 ```json
 {
   "transaction_id": "ed90a56d-fc89-4112-9dee-dd31fe9d55d9",
@@ -53,7 +52,8 @@ Body:
 
 URL: `http://<ip-address>:8080/new/gun_stat`
 
-Body: 
+Body:
+
 ```json
 {
   "gun_id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
