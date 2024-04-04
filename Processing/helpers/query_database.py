@@ -102,8 +102,31 @@ def count_sum(count, events, property):
     return count
 
 
+def update_last_updated(gs_events, ph_events, stats_last_updated):
+    if len(gs_events) > 0 and len(ph_events) > 0:
+        gs_last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        ph_last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+
+        if gs_last_updated > ph_last_updated:
+            last_updated = gs_last_updated
+        else:
+            last_updated = ph_last_updated
+        
+        return last_updated
+    elif len(gs_events) > 0 and len(ph_events) == 0:
+        last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+
+        return last_updated
+    elif len(gs_events) == 0 and len(ph_events) > 0:
+        last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+
+        return last_updated
+    
+    return stats_last_updated
+    
+
 def update_stats(producer, stats_data, gs_events, ph_events, new_event):
-    last_updated = stats_data['last_updated']
+    # last_updated = stats_data['last_updated']
 
     total_messages = len(gs_events) + len(ph_events)
 
@@ -114,7 +137,7 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
         num_ph = stats_data['num_purchase_history_events'] + len(ph_events)
         total_revenue = count_sum(stats_data['total_revenue'], ph_events, "item_price")
 
-        last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        # last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
     else:
         num_ph = stats_data['num_purchase_history_events']
         total_revenue = stats_data['total_revenue']
@@ -124,14 +147,16 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
         hs_count = count_sum(stats_data['head_shot_count'], gs_events, "num_head_shots")
         bs_count = count_sum(stats_data['bullet_shot_count'], gs_events, "num_bullets_shot")
 
-        last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        # last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
     else:
         num_gs = stats_data['num_gun_stat_events']
         hs_count = stats_data['head_shot_count']
         bs_count = stats_data['bullet_shot_count']
     
-    if last_updated == None:
-        last_updated = stats_data['last_updated']
+    # if last_updated == None:
+    #     last_updated = stats_data['last_updated']
+
+    last_updated = update_last_updated(gs_events, ph_events, stats_data['last_updated'])
 
     return {
         "num_gun_stat_events": num_gs,
