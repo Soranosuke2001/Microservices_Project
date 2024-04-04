@@ -16,8 +16,6 @@ def kafka_logger(producer):
     msg_str = json.dumps(msg)
     producer.produce(msg_str.encode('utf-8'))
 
-    print('COMPLETED SENDING MESSAGE REQUEST TO KAFKA LOGS EVENT LOGGER BULLSHIT')
-
 
 def kafka_max_count(producer, max_count):
     msg = {
