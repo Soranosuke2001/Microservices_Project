@@ -11,7 +11,7 @@ from helpers.read_config import get_sqlite_config, get_mysql_config, get_kafka_t
 from helpers.log_message import success_response, error_response, log_events
 from helpers.kafka_message import kafka_max_count
 
-filename, seconds, url = get_sqlite_config()
+url = get_sqlite_config('query')
 hostname, user, password, port, db = get_mysql_config()
 kafka_threshold = int(get_kafka_threshold())
 request_timeout = read_request_config()
