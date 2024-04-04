@@ -17,7 +17,7 @@ class GunStats(Base):
     num_body_shots = Column(Integer, nullable=False)
     num_head_shots = Column(Integer, nullable=False)
     num_missed_shots = Column(Integer, nullable=False)
-    date_created = Column(DateTime, nullable=False)
+    date_created = Column(DateTime(fsp=3), nullable=False)
 
     def __init__(self, trace_id, game_id, gun_id, user_id, num_bullets_shot, num_body_shots, num_head_shots, num_missed_shots):
         self.trace_id = trace_id
