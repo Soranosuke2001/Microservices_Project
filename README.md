@@ -149,58 +149,6 @@ Once there is data stored in the database, we can also view the data. The Dashbo
 
 URL: `http://<ip-address>`
 
-# Running Services
-
-### Nginx Service
-
-hostname: nginx
-port: 80
-
-### Zookeeper Service
-
-hostname: zookeeper
-port: 2181
-
-### Kafka Service
-
-hostname: kafka
-port: 9092
-
-### MySQL DB Service
-
-hostname: db
-port: 8090
-
-### Audit Service
-
-hostname: audit_log
-port: 8110
-
-### Receiver Service
-
-hostname: receiver
-port: 8080
-
-### Storage Service
-
-hostname: storage
-port: 8090
-
-### Processing Service
-
-hostname: processing
-port: 8100
-
-### Dashboard Service
-
-hostname: dashboard
-port: 3000
-
-### Event Logger Service
-
-hostname: event_logger
-port: 8120
-
 # SQL Commands
 
 ### Getting a specific index
