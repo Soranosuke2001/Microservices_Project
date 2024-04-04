@@ -36,14 +36,21 @@ def get_mysql_config():
     return hostname, user, password, port, db
 
 
-def get_sqlite_config():
+def get_sqlite_config(filename):
     app_config = read_app_config()
 
-    filename = app_config['datastore']['filename']
-    seconds = app_config['scheduler']['period_sec']
+    if filename == 'app':
+        seconds = app_config['scheduler']['period_sec']
+        
+        return seconds
+    elif filename == 'connection':
+        sqlite_filename = app_config['datastore']['filename']
+
+        return sqlite_filename
+    
     url = app_config['eventstore']['url']
 
-    return filename, seconds, url
+    return sqlite_filename, seconds, url
 
 
 def get_kafka_config():

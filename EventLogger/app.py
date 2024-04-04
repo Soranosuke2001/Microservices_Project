@@ -3,58 +3,20 @@ import os
 from threading import Thread
 
 import connexion
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from pykafka import KafkaClient
-from pykafka.common import OffsetType
 from connexion.middleware import MiddlewarePosition
 from starlette.middleware.cors import CORSMiddleware
 
-from base import Base
-
-from helpers.read_config import get_sqlite_config, read_log_config, get_kafka_config, read_flask_config
+from helpers.read_config import read_flask_config, read_log_config
 from helpers.query_database import check_prev_data, update_db
+from helpers.test_connection import sqlite_connection, kafka_connection
 
-filename, seconds, url = get_sqlite_config()
-kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 flask_host, flask_port = read_flask_config()
 logger = read_log_config()
 
 time.sleep(10)
 
-KAFKA_CONNECTED = False
-SQLITE_CONNECTED = False
-
-while not SQLITE_CONNECTED:
-    try:
-        DB_ENGINE = create_engine(f"sqlite:///{filename}")
-        Base.metadata.bind = DB_ENGINE
-        DB_SESSION = sessionmaker(bind=DB_ENGINE)
-
-        logger.info("Successfully connected to SQLite")
-        SQLITE_CONNECTED = True
-    except Exception as sqlite_error:
-        logger.error(
-            "Failed to connect to SQLite database, retrying in 5 seconds")
-        time.sleep(5)
-
-while not KAFKA_CONNECTED:
-    try:
-        events_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-        events_topic = events_client.topics[str.encode(kafka_topic)]
-
-        events_consumer = events_topic.get_simple_consumer(
-            consumer_group=b'log_group',
-            reset_offset_on_start=False,
-            auto_offset_reset=OffsetType.LATEST
-        )
-
-        logger.info("Successfully connected to Kafka")
-        KAFKA_CONNECTED = True
-    except Exception as kafka_error:
-        logger.error(
-            "Failed to connect to events Kafka, retrying in 5 seconds")
-        time.sleep(5)
+DB_SESSION = sqlite_connection(logger)
+events_consumer = kafka_connection(logger)
 
 
 def fetch_event_stats():
