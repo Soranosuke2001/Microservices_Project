@@ -3,46 +3,27 @@ import time
 from datetime import datetime
 
 import connexion
-from pykafka import KafkaClient
 from apscheduler.schedulers.background import BackgroundScheduler
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+
 from connexion.middleware import MiddlewarePosition
 from starlette.middleware.cors import CORSMiddleware
 
-from base import Base
 from stats import Stats
 
 from helpers.log_message import start_request, end_request, data_found, data_not_found, start_periodic, end_periodic, updated_db, no_events
 from helpers.kafka_message import kafka_logger
 from helpers.query_database import row_counter, check_db, update_storage
-from helpers.read_config import get_sqlite_config, read_log_config, get_kafka_config, read_flask_config
+from helpers.read_config import get_sqlite_config, read_log_config, read_flask_config
+from helpers.test_connection import sqlite_connection, kafka_connection
 
-filename, seconds, url = get_sqlite_config()    
-kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
+seconds = get_sqlite_config('app')    
 flask_host, flask_port = read_flask_config()
 logger = read_log_config()
 
-DB_ENGINE = create_engine("sqlite:///%s" %filename)
-Base.metadata.bind = DB_ENGINE
-DB_SESSION = sessionmaker(bind=DB_ENGINE)
-
 time.sleep(10)
 
-logs_connected = False
-
-while not logs_connected:
-    try:
-        logs_client = KafkaClient(hosts=f'{kafka_hostname}:{kafka_port}')
-        logs_topic = logs_client.topics[kafka_topic.encode('utf-8')]
-        logs_producer = logs_topic.get_sync_producer()
-        
-        logger.info("Successfully connected to Logger Kafka.")
-        logs_connected = True
-    except Exception as e:
-        logger.error(e)
-        logger.error("Failed to connect to logs Kafka, retrying in 5 seconds")
-        time.sleep(5)
+DB_SESSION = sqlite_connection(logger)
+logs_producer = kafka_connection(logger)
 
 
 def get_stats():
