@@ -114,7 +114,7 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
         num_ph = stats_data['num_purchase_history_events'] + len(ph_events)
         total_revenue = count_sum(stats_data['total_revenue'], ph_events, "item_price")
 
-        last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%SZ')
+        last_updated = datetime.strptime(ph_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
     else:
         num_ph = stats_data['num_purchase_history_events']
         total_revenue = stats_data['total_revenue']
@@ -124,7 +124,7 @@ def update_stats(producer, stats_data, gs_events, ph_events, new_event):
         hs_count = count_sum(stats_data['head_shot_count'], gs_events, "num_head_shots")
         bs_count = count_sum(stats_data['bullet_shot_count'], gs_events, "num_bullets_shot")
 
-        last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%SZ')
+        last_updated = datetime.strptime(gs_events[-1]['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ')
     else:
         num_gs = stats_data['num_gun_stat_events']
         hs_count = stats_data['head_shot_count']
@@ -148,8 +148,8 @@ def update_storage(logger, stats_data, producer):
     error = False
 
     params = {
-        "start_timestamp": stats_data['last_updated'].strftime('%Y-%m-%dT%H:%M:%SZ'),
-        "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+        "start_timestamp": stats_data['last_updated'].strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
+        "end_timestamp": datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
     }
 
     gs_res = requests.get(f"{url}/get/gun_stats", params=params, timeout=request_timeout)
