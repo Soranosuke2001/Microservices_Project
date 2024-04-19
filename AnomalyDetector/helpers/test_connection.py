@@ -10,7 +10,7 @@ from base import Base
 
 from helpers.read_config import get_sqlite_config, get_kafka_config
 
-filename, seconds, url = get_sqlite_config()
+filename = get_sqlite_config()
 kafka_hostname, kafka_port, kafka_topic = get_kafka_config()
 
 def sqlite_connection(logger: Logger):
