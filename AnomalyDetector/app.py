@@ -7,7 +7,7 @@ from connexion.middleware import MiddlewarePosition
 from starlette.middleware.cors import CORSMiddleware
 
 from helpers.read_config import read_flask_config, read_log_config
-from helpers.query_database import read_kafka
+from helpers.query_database import read_kafka, fetch_anomalies
 from helpers.test_connection import sqlite_connection, kafka_connection
 
 flask_host, flask_port = read_flask_config()
@@ -20,28 +20,20 @@ events_consumer = kafka_connection(logger)
 
 
 def get_anomalies(anomaly_type):
-    pass
+    try:
+        logger.info(f"Fetching detected anomalies for the event type: {anomaly_type}")
 
-# def fetch_event_stats():
-#     logger.info("Fetching logged events")
+        anomalies = fetch_anomalies(anomaly_type)
 
-#     try:
-#         prev_entry = check_prev_data(DB_SESSION)
+        results_len = len(anomalies)
 
-#         data = {
-#             "0001": prev_entry['0001'],
-#             "0002": prev_entry['0002'],
-#             "0003": prev_entry['0003'],
-#             "0004": prev_entry['0004'],
-#         }
+        logger.info(f"Successfully fetched {results_len} anomalies for the event type: {anomaly_type}")
 
-#         logger.info("Successfully fetched logged events")
+        return anomalies, 200
+    except Exception as e:
+        logger.error(f"There was an error fetching the anomalies: {e}")
 
-#         return data, 200
-#     except Exception as e:
-#         logger.error(
-#             "There was an error fetching the data entry from SQLite database.")
-#         return {'message': e}, 400
+        return { 'message': e }, 400
 
 
 def check_anomalies():

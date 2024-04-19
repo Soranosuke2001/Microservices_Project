@@ -81,3 +81,19 @@ def read_kafka(consumer, logger: Logger, DB_SESSION):
     
     consumer.commit_offsets()
     session.close()
+
+
+def fetch_anomalies(anomaly_type, DB_SESSION):
+    session: Session = DB_SESSION()
+    return_list = []
+
+    results = session.query(Anomaly).order_by(desc(Anomaly.date_created)).filter(Anomaly.anomaly_type == anomaly_type).all()
+
+    for result in results:
+        entry = result.to_dict()
+        return_list.append(entry)
+
+    session.close()
+
+    return return_list
+    
