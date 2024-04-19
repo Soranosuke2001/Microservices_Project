@@ -4,7 +4,6 @@ from logging import Logger
 from sqlalchemy import func, desc
 from sqlalchemy.orm import Session
 
-from base import Base
 from event_logs import EventLogs
 
 from helpers.read_config import get_sqlite_config
