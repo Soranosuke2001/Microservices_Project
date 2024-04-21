@@ -3,7 +3,7 @@
 Created By: Sora Schlegel
 Last Updated: April 21st, 2024
 
-This is a demonstration of how microservices work. It is a simple application where we receive data from a client and we process that data.
+This is a demonstration of how microservices work. It is a simple application where we receive data from a client and we process that data. The data is then shown on a webpage, Dashboard service.
 
 ## Service Descriptions
 
