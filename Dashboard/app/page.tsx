@@ -1,3 +1,4 @@
+import AnomaliesCard from "@/components/AnomaliesCard";
 import AuditCard from "@/components/AuditCard";
 import EventLoggerCard from "@/components/EventLoggerCard";
 import StatsCard from "@/components/StatsCard";
@@ -17,6 +18,9 @@ export default function Home() {
       </div>
       <div>
         <EventLoggerCard />
+      </div>
+      <div>
+        <AnomaliesCard />
       </div>
     </div>
   );

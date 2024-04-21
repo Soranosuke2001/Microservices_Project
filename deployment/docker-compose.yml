@@ -142,6 +142,20 @@ services:
     depends_on:
       - kafka
 
+  anomaly_detector:
+    image: soranosuke/anomaly_detector:latest
+    platform: linux/amd64
+    environment:
+      - TARGET_ENV=test
+    networks:
+      - api.network
+    volumes:
+      - /home/soranosuke/config/anomaly_detector:/config
+      - /home/soranosuke/logs:/logs
+      - anomaly_detector-db:/data
+    depends_on:
+      - kafka
+
 networks:
   api.network:
 
@@ -151,3 +165,4 @@ volumes:
   kafka-data:
   processing-db:
   event_logger-db:
+  anomaly_detector-db:

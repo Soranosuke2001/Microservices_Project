@@ -1,0 +1,13 @@
+version: 1
+datastore:
+  filename: /data/anomalies.sqlite
+anomalies:
+  max_bullets: 1000
+  min_item_price: 5.99
+events:
+  hostname: kafka
+  port: 9092
+  topic: events
+app:
+  host: 0.0.0.0
+  port: 8130
