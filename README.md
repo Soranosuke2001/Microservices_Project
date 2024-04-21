@@ -1,5 +1,7 @@
 # ACIT 3855 Microservices Project
 
+Created By: Sora Schlegel
+
 This is a demonstration of how microservices work. It is a simple application where we receive data from a client and we process that data.
 
 ## Service Descriptions
