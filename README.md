@@ -63,7 +63,7 @@ The service will periodically send requests to the Event Logger service to fetch
 
 This service will read the kafka topic that was added by the Receiver service. It will then go through each entry and check for any anomalies within the data. In order to detect the anomalies, this must be set manually and integrated into the code. However, the threshold value can be configured using the `app_conf.yml` file. Any anomalies detected are saved to a stateful SQLite database.
 
-Note: There is also a GET endpoint to view the list of anomalies detected
+Note: There is also a GET endpoint to view the list of anomalies detected, which is explained in the `Things we can do` section.
 
 ## Getting Started
 
@@ -156,3 +156,11 @@ Item Transaction URL: `http://<ip-address>/audit_log/get/audit/purchase_transact
 Once there is data stored in the database, we can also view the data. The Dashboard service is a single web page application that will display some stats, calculated based on the stored data in the database, and some random data stored in the database.
 
 URL: `http://<ip-address>`
+
+### 5. Fetching Anomalies
+
+There may have been invalid data sent to the server that is getting stored in the database. We can check the integrity of our data by performing a GET request to the endpoint. We can use Postman to perform the request or we can just visited the Dashboard service and view the results there as well.
+
+If using Postman, the endpoint would be:
+
+URL: `http://<ip-address>/anomalies`
