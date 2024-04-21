@@ -1,3 +1,2 @@
 @Library('ci_functions@main')_
-
-node.call(dockerRepoName: 'dashboard', imageName: 'latest', serviceName: 'Dashboard')
+node(dockerRepoName: 'dashboard', imageName: 'latest', serviceName: 'Dashboard')
