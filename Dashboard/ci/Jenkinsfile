@@ -1,2 +1,2 @@
 @Library('ci_functions@main')_
-js_build('dashboard', 'latest', 'Dashboard')
+node('dashboard', 'latest', 'Dashboard')
