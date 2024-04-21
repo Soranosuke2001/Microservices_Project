@@ -61,6 +61,10 @@ The service will periodically send requests to the Processing service to fetch t
 
 The service will periodically send requests to the Event Logger service to fetch the latest entry in the SQLite database.
 
+4. Fetching Anomalies Detected
+
+The service will periodically send requests to the Anomalies Detector service to fetch the latest entry in the SQLite database.
+
 ### Anomaly Detector Service
 
 This service will read the kafka topic that was added by the Receiver service. It will then go through each entry and check for any anomalies within the data. In order to detect the anomalies, this must be set manually and integrated into the code. However, the threshold value can be configured using the `app_conf.yml` file. Any anomalies detected are saved to a stateful SQLite database.
