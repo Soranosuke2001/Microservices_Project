@@ -1,6 +1,11 @@
-export async function GET() {
+import { NextRequest } from "next/server"
+
+export async function GET(request: NextRequest) {
     try {
-        const response = await fetch(process.env.ANOMALY_URL!)
+        const { searchParams } = request.nextUrl
+        console.log(searchParams)
+
+        const response = await fetch(process.env.ANOMALY_URL! + searchParams, { cache: "no-store" })
 
         if (!response.ok) {
             return new Response(
