@@ -40,8 +40,6 @@ def kafka_fetch(kafka_hostname, kafka_port, kafka_topic, event_type, index, logg
     except Exception as e:
         logger.error(f"Error: {e}")
         logger.error("No more messages found...")
-    finally:
-        print(test_count)
 
     logger.error(f"Could not find {event_type} at index: {index}")
 
