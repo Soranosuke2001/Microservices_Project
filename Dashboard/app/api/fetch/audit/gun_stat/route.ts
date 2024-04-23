@@ -1,6 +1,10 @@
-export async function GET() {
+import { NextRequest } from "next/server"
+
+export async function GET(request: NextRequest) {
     try {
-        const response = await fetch(process.env.GUN_STAT_AUDIT_URL!)
+        const index = request.nextUrl.searchParams.get('index')
+
+        const response = await fetch(process.env.GUN_STAT_AUDIT_URL! + `?index=${index}`, { cache: 'no-store' })
 
         if (!response.ok) {
             return new Response(
