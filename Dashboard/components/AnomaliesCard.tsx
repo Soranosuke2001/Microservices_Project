@@ -9,7 +9,7 @@ import AnomaliesStatsCard from "./AnomaliesStatsCard";
 interface AnomaliesCardProps {}
 
 const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
-  const [anomaliesStats, setAnomaliesStats] = useState<object | null>(null);
+  const [anomaliesStats, setAnomaliesStats] = useState<any>(null);
   const [currentDate, setCurrentDate] = useState<string | null>(null);
 
   const toastMessage = (title: string, message: string, log: string) => {
