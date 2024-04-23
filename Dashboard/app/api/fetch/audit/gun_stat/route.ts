@@ -4,6 +4,8 @@ export async function GET(request: NextRequest) {
     try {
         const index = request.nextUrl.searchParams.get('index')
 
+        console.log(`Index Value: ${index}`)
+
         const response = await fetch(process.env.GUN_STAT_AUDIT_URL! + `?index=${index}`, { cache: 'no-store' })
 
         if (!response.ok) {
