@@ -39,8 +39,8 @@ const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
         const purchase_history_anomalies = await purchase_history_response.json();
 
         const data = {
-          "gun_stat": gun_stats_anomalies[0],
-          "purchase_history": purchase_history_anomalies[0]
+          "gun_stat": gun_stats_anomalies.message[0],
+          "purchase_history": purchase_history_anomalies.message[0]
         }
 
         toastMessage(
