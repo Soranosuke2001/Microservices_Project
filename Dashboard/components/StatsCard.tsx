@@ -15,7 +15,7 @@ import Loading from "./Loading";
 interface StatsCardProps {}
 
 const StatsCard: FC<StatsCardProps> = ({}) => {
-  const [statsData, setStatsData] = useState(null);
+  const [statsData, setStatsData] = useState<any>(null);
 
   const toastMessage = (title: string, message: string, log: string) => {
     toast(title, {

@@ -3,8 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { getCurrentDateTime } from "@/lib/currentDate";
-import EventStatsCard from "./EventStatsCard";
-import AnomaliesStatsCard from "./AnomaliesStatsCard";
+import AnomaliesDataCard from "./AnomaliesStatsCard";
 
 interface AnomaliesCardProps {}
 
@@ -70,7 +69,7 @@ const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
     };
   }, []);
   return (
-    <AnomaliesStatsCard data={anomaliesStats} last_updated={currentDate}/>
+    <AnomaliesDataCard data={anomaliesStats} last_updated={currentDate}/>
   );
 };
 
