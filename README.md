@@ -175,6 +175,8 @@ URL: `http://<ip-address>/anomalies`
 
 ## Using Jenkins
 
+Note: The pipeline must be edited since the pipeline in the repo will attempt to push the built images to MY personal DockerHub repo which will not work.
+
 Each service in this repo already has a Jenkins file. The Jenkins file is using an external shared library repo. The link to the repo can be found below:
 
 [Jenkins Pipeline GitHub Link](https://github.com/Soranosuke2001/ci_functions)
