@@ -172,3 +172,11 @@ There may have been invalid data sent to the server that is getting stored in th
 If using Postman, the endpoint would be:
 
 URL: `http://<ip-address>/anomalies`
+
+## Using Jenkins
+
+Each service in this repo already has a Jenkins file. The Jenkins file is using an external shared library repo. The link to the repo can be found below:
+
+[Jenkins Pipeline GitHub Link](https://github.com/Soranosuke2001/ci_functions)
+
+The Dockerfile to setup the Jenkins container is included in the repo as well. Follow the README file in the repo to setup Jenkins on your VM.
