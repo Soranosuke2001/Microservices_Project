@@ -1,5 +1,3 @@
-import { NextResponse } from "next/server"
-
 export async function GET() {
     try {
         const response = await fetch(process.env.STATS_URL!)
@@ -20,8 +18,7 @@ export async function GET() {
             )
         }
 
-        return new NextResponse(JSON.stringify({ message: data }), { status: 200 })
-        // return new Response(JSON.stringify({ message: data }), { status: 200 })
+        return new Response(JSON.stringify({ message: data }), { status: 200 })
     } catch (err) {
         return new Response(
             JSON.stringify({ message: "There was an error fetching data"}),
