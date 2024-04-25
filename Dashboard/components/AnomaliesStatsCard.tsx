@@ -32,13 +32,19 @@ const AnomaliesDataCard: FC<AnomaliesStatsCardProps> = ({
 
   return (
     <>
+    <div>
+      {gun_stat}
+    </div>
+    <div>
+      {purchase_history}
+    </div>
       <Card className="bg-neutral-900 text-white mb-4 p-6">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl">Latest Anomalies Detected</CardTitle>
         </CardHeader>
         <div className="flex gap-10">
           <CardContent className="flex flex-col gap-5">
-            <div>
+            {/* <div>
               <h3 className="text-lg font-semibold">Gun Stat Anomaly</h3>
               <Separator className="mb-2" />
               <p className="text-neutral-300">
@@ -56,11 +62,11 @@ const AnomaliesDataCard: FC<AnomaliesStatsCardProps> = ({
               <p className="text-neutral-300">
                 Date Detected: {gun_stat["date_created"]}
               </p>
-            </div>
+            </div> */}
           </CardContent>
 
           <CardContent className="flex flex-col gap-5">
-            <div>
+            {/* <div>
               <h3 className="text-lg font-semibold">
                 Purchase History Anomalies
               </h3>
@@ -80,7 +86,7 @@ const AnomaliesDataCard: FC<AnomaliesStatsCardProps> = ({
               <p className="text-neutral-300">
                 Date Detected: {purchase_history["date_created"]}
               </p>
-            </div>
+            </div> */}
           </CardContent>
         </div>
 
