@@ -35,7 +35,7 @@ def get_anomalies(anomaly_type):
     try:
         logger.info("Fetching detected anomalies for the event type: %s", anomaly_type)
 
-        anomalies = fetch_anomalies(anomaly_type)
+        anomalies = fetch_anomalies(anomaly_type, DB_SESSION)
 
         results_len = len(anomalies)
 
