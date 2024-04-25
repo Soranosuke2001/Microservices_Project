@@ -67,7 +67,7 @@ if "TARGET_ENV" not in os.environ or os.environ["TARGET_ENV"] != "test":
 
 # Add OpenAPI configuration
 app.add_api("./config/openapi.yml",
-            base_path="/event_logger",
+            base_path="/anomaly_detector",
             strict_validation=True,
             validate_responses=True)
 
