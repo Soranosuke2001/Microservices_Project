@@ -24,7 +24,7 @@ const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const gun_stats_response = await fetch(process.env.NEXT_PUBLIC_ANOMALY_URL! + `?anomaly_type=gun_stats`, { cache: 'no-store' });
+        const gun_stats_response = await fetch(process.env.NEXT_PUBLIC_ANOMALY_URL! + `?anomaly_type=gun_stat`, { cache: 'no-store' });
         const purchase_history_response = await fetch(process.env.NEXT_PUBLIC_ANOMALY_URL! + `?anomaly_type=purchase_history`, { cache: 'no-store' });
 
         if (!gun_stats_response.ok) {

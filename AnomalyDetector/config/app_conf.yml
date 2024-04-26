@@ -2,7 +2,7 @@ version: 1
 datastore:
   filename: /data/anomalies.sqlite
 anomalies:
-  max_bullets: 1000
+  max_bullets: 10000
   min_item_price: 5.99
 events:
   hostname: kafka
