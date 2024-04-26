@@ -31,6 +31,7 @@ const EventLoggerCard: FC<EventLoggerCardProps> = ({}) => {
         }
 
         const data = await response.json();
+        const { message } = data
 
         toastMessage(
           "Successfully Fetched Data",
@@ -38,7 +39,7 @@ const EventLoggerCard: FC<EventLoggerCardProps> = ({}) => {
           "Toast Dismissed"
         );
 
-        setEventStats(data);
+        setEventStats(message);
         setCurrentDate(getCurrentDateTime());
       } catch (error) {
         toastMessage(

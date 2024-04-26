@@ -1,9 +1,10 @@
 # ACIT 3855 Microservices Project
 
 Created By: Sora Schlegel
-Last Updated: April 20th, 2024
 
-This is a demonstration of how microservices work. It is a simple application where we receive data from a client and we process that data.
+Last Updated: April 23rd, 2024
+
+This is a demonstration of how microservices work. It is a simple application where we receive data from a client and we process that data. The data is then shown on a webpage, Dashboard service.
 
 ## Service Descriptions
 
@@ -171,3 +172,14 @@ There may have been invalid data sent to the server that is getting stored in th
 If using Postman, the endpoint would be:
 
 URL: `http://<ip-address>/anomalies`
+
+## Using Jenkins
+
+Note: The pipeline must be edited since the pipeline in the repo will attempt to push the built images to MY personal DockerHub repo which will not work.
+
+Each service in this repo already has a Jenkins file. The Jenkins file is using an external shared library repo. The link to the repo can be found below:
+
+[Jenkins Pipeline GitHub Link](https://github.com/Soranosuke2001/ci_functions)
+
+The Dockerfile to setup the Jenkins container is included in the repo as well. Follow the README file in the repo to setup Jenkins on your VM.
+

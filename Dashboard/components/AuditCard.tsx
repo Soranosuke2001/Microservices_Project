@@ -44,23 +44,25 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
         }
 
         const gsResult = await gsResponse.json();
-
+        const gsData = gsResult.message
+        
         toastMessage(
           "Successfully Fetched Data",
           "Fetched data from Gun Stat audit endpoint.",
           "Toast Dismissed"
         );
-
+        
         const phResponse = await fetch(
           process.env.NEXT_PUBLIC_PURCHASE_HISTORY_AUDIT_URL! +
-            `?index=${queryIndex.current}`
+          `?index=${queryIndex.current}`
         );
-
+        
         if (!phResponse.ok) {
           throw new Error("No new data found");
         }
-
+        
         const phResult = await phResponse.json();
+        const phData = phResult.message
 
         toastMessage(
           "Successfully Fetched Data",
@@ -68,8 +70,8 @@ const AuditCard: FC<AuditCardProps> = ({}) => {
           "Toast Dismissed"
         );
 
-        setGSData(gsResult);
-        setPHData(phResult);
+        setGSData(gsData);
+        setPHData(phData);
         setCurrentDate(getCurrentDateTime());
       } catch (error) {
         toastMessage(

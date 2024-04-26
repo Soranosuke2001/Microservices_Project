@@ -15,7 +15,7 @@ import Loading from "./Loading";
 interface StatsCardProps {}
 
 const StatsCard: FC<StatsCardProps> = ({}) => {
-  const [statsData, setStatsData] = useState(null);
+  const [statsData, setStatsData] = useState<any>(null);
 
   const toastMessage = (title: string, message: string, log: string) => {
     toast(title, {
@@ -30,7 +30,9 @@ const StatsCard: FC<StatsCardProps> = ({}) => {
   const fetchData = async () => {
     try {
       const statsResponse = await fetch(process.env.NEXT_PUBLIC_STATS_URL!);
-      const statsResult = await statsResponse.json();
+      const data = await statsResponse.json();
+      const statsResult = data.message
+      console.log(`Processing data: ${statsResult}`)
 
       toastMessage(
         "Successfully Fetched Data",

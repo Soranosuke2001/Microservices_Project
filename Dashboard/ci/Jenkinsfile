@@ -1,0 +1,2 @@
+@Library('ci_functions@main')_
+nextjs_build(dockerRepoName: 'dashboard', imageName: 'latest', serviceName: 'Dashboard')

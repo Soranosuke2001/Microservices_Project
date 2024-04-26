@@ -3,12 +3,12 @@
 import { FC, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { getCurrentDateTime } from "@/lib/currentDate";
-import EventStatsCard from "./EventStatsCard";
+import AnomaliesDataCard from "./AnomaliesStatsCard";
 
 interface AnomaliesCardProps {}
 
 const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
-  const [anomaliesStats, setAnomaliesStats] = useState<object | null>(null);
+  const [anomaliesStats, setAnomaliesStats] = useState<any>(null);
   const [currentDate, setCurrentDate] = useState<string | null>(null);
 
   const toastMessage = (title: string, message: string, log: string) => {
@@ -39,8 +39,8 @@ const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
         const purchase_history_anomalies = await purchase_history_response.json();
 
         const data = {
-          "gun_stat": gun_stats_anomalies[0],
-          "purchase_history": purchase_history_anomalies[0]
+          "gun_stat": gun_stats_anomalies.message[0],
+          "purchase_history": purchase_history_anomalies.message[0]
         }
 
         toastMessage(
@@ -69,7 +69,7 @@ const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
     };
   }, []);
   return (
-    <EventStatsCard data={anomaliesStats} last_updated={currentDate}/>
+    <AnomaliesDataCard data={anomaliesStats} last_updated={currentDate}/>
   );
 };
 
