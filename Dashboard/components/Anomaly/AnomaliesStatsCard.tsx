@@ -29,15 +29,10 @@ const AnomaliesDataCard: FC<AnomaliesStatsCardProps> = ({
   }
 
   const { gun_stat, purchase_history } = data;
+  console.log(`Anomalies Data: ${data}`)
 
   return (
     <>
-    <div>
-      {gun_stat}
-    </div>
-    <div>
-      {purchase_history}
-    </div>
       <Card className="bg-neutral-900 text-white mb-4 p-6">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl">Latest Anomalies Detected</CardTitle>

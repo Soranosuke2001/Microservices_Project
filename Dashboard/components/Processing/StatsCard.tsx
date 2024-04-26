@@ -32,7 +32,6 @@ const StatsCard: FC<StatsCardProps> = ({}) => {
       const statsResponse = await fetch(process.env.NEXT_PUBLIC_STATS_URL!);
       const data = await statsResponse.json();
       const statsResult = data.message
-      console.log(`Processing data: ${statsResult}`)
 
       toastMessage(
         "Successfully Fetched Data",
