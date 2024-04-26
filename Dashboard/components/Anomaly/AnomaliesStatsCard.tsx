@@ -7,9 +7,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Separator } from "./ui/separator";
-import Loading from "./Loading";
+} from "../ui/card";
+import { Separator } from "../ui/separator";
+import Loading from "../Loading";
 
 interface AnomaliesStatsCardProps {
   data: any;

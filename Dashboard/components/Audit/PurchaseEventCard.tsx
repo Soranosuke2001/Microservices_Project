@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Separator } from "./ui/separator";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Separator } from "../ui/separator";
 
 interface PurchaseEventCardProps {
   phData: any,

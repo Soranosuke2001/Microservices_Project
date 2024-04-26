@@ -7,10 +7,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Separator } from "./ui/separator";
+} from "../ui/card";
+import { Separator } from "../ui/separator";
 import { toast } from "sonner";
-import Loading from "./Loading";
+import Loading from "../Loading";
 
 interface StatsCardProps {}
 

@@ -10,8 +10,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import Loading from "./Loading";
+} from "../ui/card";
+import Loading from "../Loading";
 import { getCurrentDateTime } from "@/lib/currentDate";
 
 interface AuditCardProps {}

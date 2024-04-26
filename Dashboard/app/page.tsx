@@ -1,7 +1,7 @@
-import AnomaliesCard from "@/components/AnomaliesCard";
-import AuditCard from "@/components/AuditCard";
-import EventLoggerCard from "@/components/EventLoggerCard";
-import StatsCard from "@/components/StatsCard";
+import AnomaliesCard from "@/components/Anomaly/AnomaliesCard";
+import AuditCard from "@/components/Audit/AuditCard";
+import EventLoggerCard from "@/components/EventLogger/EventLoggerCard";
+import StatsCard from "@/components/Processing/StatsCard";
 import TitleCard from "@/components/TitleCard";
 
 export default function Home() {
