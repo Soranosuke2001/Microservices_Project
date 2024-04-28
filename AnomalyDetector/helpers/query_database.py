@@ -1,7 +1,7 @@
 import json
 
 from logging import Logger
-from sqlalchemy import func, desc
+from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
 from anomaly import Anomaly
@@ -90,9 +90,6 @@ def fetch_anomalies(anomaly_type, DB_SESSION):
     return_list = []
 
     results = session.query(Anomaly).filter(Anomaly.event_type == anomaly_type).order_by(desc(Anomaly.date_created)).all()
-
-    print(f'type: {anomaly_type}')
-    print(results)
 
     for result in results:
         entry = result.to_dict()

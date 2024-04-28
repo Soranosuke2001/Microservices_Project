@@ -26,6 +26,7 @@ time.sleep(10)
 DB_SESSION = sqlite_connection(logger)
 events_consumer = kafka_connection(logger)
 
+
 def get_anomalies(anomaly_type):
     """
     Fetch and return anomalies for a given type.
@@ -47,11 +48,13 @@ def get_anomalies(anomaly_type):
 
         return {'message': str(e)}, 400
 
+
 def check_anomalies():
     """
     Checks for new anomalies by reading from Kafka and updates the database.
     """
     read_kafka(events_consumer, logger, DB_SESSION)
+
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 
