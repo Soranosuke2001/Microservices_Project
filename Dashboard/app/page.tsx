@@ -11,6 +11,9 @@ export default function Home() {
         <TitleCard />
       </div>
       <div>
+        <AnomaliesCard />
+      </div>
+      <div>
         <AuditCard />
       </div>
       <div>
@@ -18,9 +21,6 @@ export default function Home() {
       </div>
       <div>
         <EventLoggerCard />
-      </div>
-      <div>
-        <AnomaliesCard />
       </div>
     </div>
   );
