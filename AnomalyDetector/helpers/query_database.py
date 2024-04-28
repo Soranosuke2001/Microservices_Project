@@ -12,14 +12,15 @@ filename = get_sqlite_config()
 max_bullets, min_item_price = get_threshold_config()
 
 
-def check_gun_stat_event(payload, logger: Logger, session: Session):
+def check_gun_stat_event(msg, logger: Logger, session: Session):
+    payload = msg['payload']
     bullet_count = payload['num_bullets_shot']
 
     if bullet_count > max_bullets:
         event_id = payload['gun_id']
         anomaly_value = bullet_count
         trace_id = payload['trace_id']
-        event_type = 'gun_stat'
+        event_type = msg['type']
         anomaly_type = 'Exceeded max bullet count'
         description = f'The number of bullets shot, {anomaly_value}, exceeds the threshold value of {max_bullets}'
 
@@ -36,14 +37,15 @@ def check_gun_stat_event(payload, logger: Logger, session: Session):
         session.commit()
 
 
-def check_purchase_history(payload, logger: Logger, session: Session):
+def check_purchase_history(msg, logger: Logger, session: Session):
+    payload = msg['payload']
     item_price = payload['item_price']
 
     if item_price < min_item_price:
         event_id = payload['transaction_id']
         anomaly_value = item_price
         trace_id = payload['trace_id']
-        event_type = 'purchase_history'
+        event_type = msg['type']
         anomaly_type = 'Below minimum price'
         description = f'The item with the price of ${anomaly_value}, does not meet the minimum item price of ${min_item_price}'
 
@@ -73,9 +75,9 @@ def read_kafka(consumer, logger: Logger, DB_SESSION):
         logger.info(f"Checking for anomalies in the event: {msg['payload']}")
 
         if msg['type'] == 'gun_stat':
-            check_gun_stat_event(msg['payload'], logger, session)
+            check_gun_stat_event(msg, logger, session)
         elif msg['type']=='purchase_history':
-            check_purchase_history(msg['payload'], logger, session)
+            check_purchase_history(msg, logger, session)
         else:
             logger.error(f"Unable to process the following message: {msg}")
     
@@ -87,7 +89,7 @@ def fetch_anomalies(anomaly_type, DB_SESSION):
     session: Session = DB_SESSION()
     return_list = []
 
-    results = session.query(Anomaly).filter(Anomaly.anomaly_type == anomaly_type).order_by(desc(Anomaly.date_created)).all()
+    results = session.query(Anomaly).filter(Anomaly.event_type == anomaly_type).order_by(desc(Anomaly.date_created)).all()
 
     print(f'type: {anomaly_type}')
     print(results)
