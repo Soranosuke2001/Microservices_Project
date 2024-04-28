@@ -12,11 +12,11 @@ CREATE_TABLE = '''
                 CREATE TABLE IF NOT EXISTS anomaly
                 (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    event_id VARCHAR(250) NOT NULL,
-                    trace_id VARCHAR(250) NOT NULL,
-                    event_type VARCHAR(100) NOT NULL,
-                    anomaly_type VARCHAR(100) NOT NULL,
-                    description VARCHAR(250) NOT NULL,
+                    event_id TEXT NOT NULL,
+                    trace_id TEXT NOT NULL,
+                    event_type TEXT NOT NULL,
+                    anomaly_type TEXT NOT NULL,
+                    description TEXT NOT NULL,
                     date_created DATETIME NOT NULL
                 )
                 '''
