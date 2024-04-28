@@ -15,11 +15,7 @@ const AnomaliesDataCard: FC<AnomaliesStatsCardProps> = ({
   last_updated,
 }) => {
   if (!data) {
-    return (
-      <Card className="bg-neutral-900 text-white mb-4 p-6">
-        <Loading />
-      </Card>
-    );
+    return <Loading />;
   }
 
   const { gun_stat, purchase_history } = data;
