@@ -87,7 +87,7 @@ def fetch_anomalies(anomaly_type, DB_SESSION):
     session: Session = DB_SESSION()
     return_list = []
 
-    results = session.query(Anomaly).filter(Anomaly.anomaly_type == anomaly_type).all()
+    results = session.query(Anomaly).order_by(Anomaly.date_created.desc()).all()[:20]
     # results = session.query(Anomaly).filter(Anomaly.anomaly_type == anomaly_type).order_by(Anomaly.date_created.desc()).all()
 
     print(f'type: {anomaly_type}')
