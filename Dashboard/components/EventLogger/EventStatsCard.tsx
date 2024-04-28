@@ -20,15 +20,13 @@ const EventStatsCard: FC<EventStatsCardProps> = ({ data, last_updated }) => {
   return (
     <>
       <Card className="bg-neutral-900 text-white mb-4 p-6">
+        <CardHeader className="text-center">
+          <CardTitle className="text-3xl">Latest Event Statistics</CardTitle>
+        </CardHeader>
         {data === null ? (
           <Loading />
         ) : (
           <>
-            <CardHeader className="text-center">
-              <CardTitle className="text-3xl">
-                Latest Event Statistics
-              </CardTitle>
-            </CardHeader>
             <div className="flex gap-10">
               <CardContent className="flex flex-col gap-5">
                 <div>

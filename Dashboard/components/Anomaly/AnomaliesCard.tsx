@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { getCurrentDateTime } from "@/lib/currentDate";
 import AnomaliesDataCard from "./AnomaliesStatsCard";
+import { Card, CardHeader, CardTitle } from "../ui/card";
 
 interface AnomaliesCardProps {}
 
@@ -24,8 +25,15 @@ const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const gun_stats_response = await fetch(process.env.NEXT_PUBLIC_ANOMALY_URL! + `?anomaly_type=gun_stat`, { cache: 'no-store' });
-        const purchase_history_response = await fetch(process.env.NEXT_PUBLIC_ANOMALY_URL! + `?anomaly_type=purchase_history`, { cache: 'no-store' });
+        const gun_stats_response = await fetch(
+          process.env.NEXT_PUBLIC_ANOMALY_URL! + `?anomaly_type=gun_stat`,
+          { cache: "no-store" }
+        );
+        const purchase_history_response = await fetch(
+          process.env.NEXT_PUBLIC_ANOMALY_URL! +
+            `?anomaly_type=purchase_history`,
+          { cache: "no-store" }
+        );
 
         if (!gun_stats_response.ok) {
           throw new Error("No new data found");
@@ -36,12 +44,13 @@ const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
         }
 
         const gun_stats_anomalies = await gun_stats_response.json();
-        const purchase_history_anomalies = await purchase_history_response.json();
+        const purchase_history_anomalies =
+          await purchase_history_response.json();
 
         const data = {
-          "gun_stat": gun_stats_anomalies.message[0],
-          "purchase_history": purchase_history_anomalies.message[0]
-        }
+          gun_stat: gun_stats_anomalies.message[0],
+          purchase_history: purchase_history_anomalies.message[0],
+        };
 
         toastMessage(
           "Successfully Fetched Data",
@@ -69,7 +78,12 @@ const AnomaliesCard: FC<AnomaliesCardProps> = ({}) => {
     };
   }, []);
   return (
-    <AnomaliesDataCard data={anomaliesStats} last_updated={currentDate}/>
+    <Card className="bg-neutral-900 text-white mb-4 p-6">
+      <CardHeader className="text-center">
+        <CardTitle className="text-3xl">Latest Anomalies Detected</CardTitle>
+      </CardHeader>
+      <AnomaliesDataCard data={anomaliesStats} last_updated={currentDate} />
+    </Card>
   );
 };
 
