@@ -19,9 +19,9 @@ def check_gun_stat_event(payload, logger: Logger, session: Session):
         event_id = payload['gun_id']
         anomaly_value = bullet_count
         trace_id = payload['trace_id']
-        event_type = "gun_stat"
-        anomaly_type = "Exceeded max bullet count"
-        description = f"The number of bullets shot, {anomaly_value}, exceeds the threshold value of {max_bullets}"
+        event_type = 'gun_stat'
+        anomaly_type = 'Exceeded max bullet count'
+        description = f'The number of bullets shot, {anomaly_value}, exceeds the threshold value of {max_bullets}'
 
         logger.info(f"Anomaly detected in Gun Stats event: {description}")
         entry = Anomaly(
@@ -43,9 +43,9 @@ def check_purchase_history(payload, logger: Logger, session: Session):
         event_id = payload['transaction_id']
         anomaly_value = item_price
         trace_id = payload['trace_id']
-        event_type = "purchase_history"
-        anomaly_type = "Below minimum price"
-        description = f"The item with the price of ${anomaly_value}, does not meet the minimum item price of ${min_item_price}"
+        event_type = 'purchase_history'
+        anomaly_type = 'Below minimum price'
+        description = f'The item with the price of ${anomaly_value}, does not meet the minimum item price of ${min_item_price}'
 
         logger.info(f"Anomaly detected in Purchase History event: {description}")
 
@@ -72,9 +72,9 @@ def read_kafka(consumer, logger: Logger, DB_SESSION):
 
         logger.info(f"Checking for anomalies in the event: {msg['payload']}")
 
-        if msg['type'] == "gun_stat":
+        if msg['type'] == 'gun_stat':
             check_gun_stat_event(msg['payload'], logger, session)
-        elif msg['type']=="purchase_history":
+        elif msg['type']=='purchase_history':
             check_purchase_history(msg['payload'], logger, session)
         else:
             logger.error(f"Unable to process the following message: {msg}")
@@ -87,7 +87,7 @@ def fetch_anomalies(anomaly_type, DB_SESSION):
     session: Session = DB_SESSION()
     return_list = []
 
-    results = session.query(Anomaly).filter(Anomaly.anomaly_type == anomaly_type).order_by(Anomaly.date_created.desc()).all()
+    results = session.query(Anomaly).filter(Anomaly.anomaly_type == anomaly_type).order_by(desc(Anomaly.date_created)).all()
 
     print(f'type: {anomaly_type}')
     print(results)
